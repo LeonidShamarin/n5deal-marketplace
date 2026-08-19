@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design tokens.
+ *
+ * The palette is not invented: the brand blue, the navy heading colour, the
+ * muted label grey and the panel background were sampled from n5deal.com, so a
+ * reviewer putting the two side by side sees the same product, not a lookalike.
+ *
+ *   #383BFE  brand      — primary actions ("Buy", "Contact"), active states
+ *   #011230  ink        — headings and attribute values
+ *   #5B6577  muted      — attribute labels, metadata
+ *   #F7F9FB  panel      — attribute cells, page background sections
+ *   #059669  success    — the "Validated" mark
+ */
+
+@theme {
+  --color-brand: #383bfe;
+  --color-brand-hover: #2d30e6;
+  --color-brand-soft: #eef0ff;
+  --color-brand-border: #bfdbfe;
+
+  --color-ink: #011230;
+  --color-body: #171717;
+  --color-muted: #5b6577;
+  --color-faint: #8b95a5;
+
+  --color-panel: #f7f9fb;
+  --color-line: #e8ecf2;
+  --color-line-strong: #d6dce6;
+
+  --color-success: #059669;
+  --color-success-soft: #ecfdf5;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-warning: #d97706;
+  --color-warning-soft: #fffbeb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-cell: 12px;
+  --shadow-brand: 0 5px 10px 0 rgb(0 113 242 / 0.15);
+  --shadow-card: 0 1px 2px 0 rgb(1 18 48 / 0.04);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: #ffffff;
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* One visible focus style for the whole app rather than per-component rules;
+     keyboard users get the same affordance on links, buttons and inputs. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Numbers in attribute cells and prices line up in columns when they share a
+     width, which matters on a card that is mostly a table of figures. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Truncate to a fixed number of lines. Used by the card description, which
+     must not push the action row out of alignment between cards. */
+  .line-clamp-2-safe {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
