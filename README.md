@@ -41,7 +41,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 **The app runs fully without an AI key.** `GEMINI_API_KEY` is optional; every AI
 feature has a deterministic path underneath it. See [AI](#ai-three-features-none-of-them-load-bearing).
 
-Other commands: `npm test` · `npm run typecheck` · `npm run build` · `npm run db:studio`
+Other commands: `npm test` · `npm run test:e2e` · `npm run typecheck` · `npm run build` · `npm run db:studio`
 
 ### Demo accounts
 
@@ -268,6 +268,7 @@ Each of these was walked in the browser, not reasoned about:
 ## Testing
 
 `npm test` — **65 unit tests**, no database required, ~1.4s.
+`npm run test:e2e` — **7 end-to-end scenarios** in Playwright, ~1.6 minutes.
 
 They cover the pure functions where being wrong is expensive and invisible: money
 parsing across the separators people actually paste, URL filter parsing as a trust
@@ -288,6 +289,55 @@ Three failed on the first run, and all three were worth having:
 
 The runner is bounded on purpose — two workers, 5s per test, a heap cap on the
 run — so a runaway test fails instead of taking the editor down with it.
+
+### End to end
+
+`npm run test:e2e` runs seven scenarios in Playwright — one main path per role,
+plus the edge cases that a screenshot review would never catch.
+
+First-time setup:
+
+```bash
+cp .env.test.example .env.test   # point it at a DIFFERENT database from .env
+npm run db:create:test           # creates n5deal_test in the same Neon project
+npm run db:migrate:test
+npx playwright install chromium
+npm run test:e2e
+```
+
+Two decisions shape the suite:
+
+- **It has its own database.** The manager scenario suspends a seller and moves
+  listing statuses around. Pointed at the database behind the deployed demo, it
+  would leave a reviewer looking at a suspended participant and half a catalogue.
+  `.env.test` targets a separate database and `globalSetup` re-seeds it before
+  every run, so each run starts from a known state and a failed run cannot poison
+  the next. Isolation was verified rather than assumed: after a full run the demo
+  database still showed 42 assets, zero test listings and zero test audit rows.
+- **It runs against a production build**, not `next dev`. The two differ in
+  rendering and error handling, and this project already produced one finding
+  that only appeared in the built output.
+
+The suite also runs with **no `GEMINI_API_KEY`**, on purpose. Every AI feature
+has a deterministic path underneath it, and these tests exercise that path — so
+a green run is also proof the app works with no model available.
+
+What the scenarios actually assert:
+
+| Role    | Scenario                                                                                                                                |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Buyer   | Signs in, sees matched listings **with the reasons the scorer produced**, opens one, contacts the seller, finds the thread in the inbox |
+| Buyer   | Contacting the same listing twice lands in the **same thread**, not a duplicate                                                         |
+| Seller  | Creates a draft, confirms it is **absent from the public catalogue**, publishes it, finds it there                                      |
+| Seller  | Another seller's edit URL answers **403**                                                                                               |
+| Manager | Suspends a seller → catalogue shrinks → unsuspends → **the count returns exactly**, and both actions are in the audit log               |
+| Manager | A suspended participant is refused at sign-in                                                                                           |
+| Manager | Moderation answers **403** to a buyer                                                                                                   |
+
+The manager cascade test is the one worth reading. It counts the public
+catalogue as a visitor before, during and after, and asserts the number comes
+back to precisely what it was — which only holds because suspension never writes
+to the listings.
 
 ---
 
@@ -338,13 +388,12 @@ by the measurement above.
 
 In the order I would actually do it:
 
-1. **Playwright smoke tests** — one scenario per role. The unit tests cover logic; the flows were verified by hand, and hand-verification does not survive the next change.
-2. **Full-text search** on `pg_trgm` or Meilisearch, with the facet counts moving to a single aggregate query instead of one per page load.
-3. **Notifications.** A message arrives and nobody knows. An outbox table plus a worker, not an inline email call.
-4. **Optimistic updates** on the moderation and status controls — every action currently waits for a round trip.
-5. **A policy-based permission layer.** The guards are explicit and readable, but they are `if` statements; at ten more roles-and-resources combinations they want to be data.
-6. **Multiple mandates per buyer**, and saved searches with alerts — the natural next thing a real buyer asks for.
-7. **Rate limiting on the AI endpoints.** They are behind a session guard and bounded per call, but nothing stops a signed-in user calling them in a loop.
+1. **Full-text search** on `pg_trgm` or Meilisearch, with the facet counts moving to a single aggregate query instead of one per page load.
+2. **Notifications.** A message arrives and nobody knows. An outbox table plus a worker, not an inline email call.
+3. **Optimistic updates** on the moderation and status controls — every action currently waits for a round trip.
+4. **A policy-based permission layer.** The guards are explicit and readable, but they are `if` statements; at ten more roles-and-resources combinations they want to be data.
+5. **Multiple mandates per buyer**, and saved searches with alerts — the natural next thing a real buyer asks for.
+6. **Rate limiting on the AI endpoints.** They are behind a session guard and bounded per call, but nothing stops a signed-in user calling them in a loop.
 
 ---
 

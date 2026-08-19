@@ -42,6 +42,7 @@ next-env.d.ts
 
 # keep the template, ignore real secrets
 !.env.example
+!.env.test.example
 
 # internal working notes (not part of the deliverable)
 /docs/internal/
@@ -50,3 +51,10 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 /prisma/*.db
+
+# playwright
+/playwright-report/
+/test-results/
+/e2e-results/
+/blob-report/
+.playwright/

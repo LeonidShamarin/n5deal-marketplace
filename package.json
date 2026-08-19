@@ -18,7 +18,12 @@
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:migrate:test": "node --env-file=.env.test node_modules/prisma/build/index.js migrate deploy",
+    "db:seed:test": "node --env-file=.env.test node_modules/tsx/dist/cli.mjs prisma/seed.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "db:create:test": "node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/create-test-db.ts"
   },
   "dependencies": {
     "@google/genai": "^2.17.1",
@@ -39,6 +44,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
