@@ -214,18 +214,17 @@ export function countryName(code: string): string {
 }
 
 /**
- * Flags are derived from the country code instead of being stored: an ISO
- * alpha-2 code maps character-by-character onto the Unicode regional indicator
- * block, so "LT" becomes the Lithuanian flag with no asset files and no CDN.
+ * Jurisdictions are shown as their ISO code, not as a flag.
+ *
+ * Flag emoji were the first attempt and had to go: Windows ships no glyphs for
+ * the regional-indicator block, so Chrome there renders "🇨🇭" as the bare letters
+ * "CH" — a broken-looking tile on the exact machine a reviewer is likely to use.
+ * The alternatives were an image CDN (an external dependency for decoration) or
+ * ~30 bundled SVGs. The code renders identically everywhere and is what the
+ * listings are actually filtered by.
  */
-export function countryFlag(code: string): string {
-  const upper = code.toUpperCase();
-  if (!/^[A-Z]{2}$/.test(upper)) return "🏳️";
-  const REGIONAL_INDICATOR_A = 0x1f1e6;
-  const LATIN_A = "A".charCodeAt(0);
-  return String.fromCodePoint(
-    ...[...upper].map((ch) => REGIONAL_INDICATOR_A + (ch.charCodeAt(0) - LATIN_A)),
-  );
+export function countryCode(code: string): string {
+  return code.toUpperCase();
 }
 
 export function isKnownCountry(code: string): boolean {

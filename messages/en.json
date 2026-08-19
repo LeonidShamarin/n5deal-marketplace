@@ -102,5 +102,44 @@
     "noBuyersHint": "Buyers can hide their profile, so some are not listed here.",
     "noMessages": "No conversations yet",
     "noMessagesHint": "A conversation starts when someone uses the contact button on a listing or a profile."
+  },
+  "catalogue": {
+    "assetsTitle": "All Listings",
+    "assetsSubtitle": "Regulated businesses and licences currently on the market.",
+    "assetsSearch": "Find the perfect asset…",
+    "buyersTitle": "Buyer mandates",
+    "buyersSubtitle": "What buyers on the platform are looking for, in their own words.",
+    "buyersSearch": "Search buyers by company, thesis or jurisdiction…",
+    "showFilters": "Filters"
+  },
+  "facet": {
+    "category": "Category",
+    "country": "Country",
+    "license": "Type of licence",
+    "businessStatus": "Business status",
+    "price": "Asking price (EUR)",
+    "ticket": "Ticket size (EUR)",
+    "ticketHint": "Shows mandates whose range overlaps yours.",
+    "priceHint": "Whole units, e.g. 250000 or 2.5M.",
+    "needsActive": "Operating business",
+    "needsActiveYes": "Required",
+    "needsActiveNo": "Not required"
+  },
+  "sort": {
+    "label": "Sort by",
+    "newest": "Newest first",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "popular": "Most viewed",
+    "ticketDesc": "Largest ticket",
+    "ticketAsc": "Smallest ticket"
+  },
+  "ai": {
+    "interpret": "Interpret",
+    "hint": "Describe what you want in a sentence — e.g. \"EMI in Lithuania under 2M with IBAN\" — and press Enter.",
+    "byModel": "Filters set from your sentence by the language model.",
+    "noStructure": "Nothing specific recognised — searching the text instead.",
+    "byRulesNoKey": "Filters set by the built-in parser — no AI key is configured.",
+    "byRulesUnavailable": "The model did not answer, so the built-in parser set the filters."
   }
 }
