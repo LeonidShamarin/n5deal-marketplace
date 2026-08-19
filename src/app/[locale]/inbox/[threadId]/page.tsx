@@ -1,7 +1,12 @@
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getFormatter, getLocale, getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  getFormatter,
+  getLocale,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 
 import { MessageComposer } from "@/components/message-composer";
 import { Badge, Card } from "@/components/ui/primitives";
@@ -39,14 +44,15 @@ export default async function ThreadPage({
   ]);
 
   const other = thread.buyerId === me.id ? thread.seller : thread.buyer;
-  const company = other.sellerProfile?.company ?? other.buyerProfile?.company ?? other.name;
+  const company =
+    other.sellerProfile?.company ?? other.buyerProfile?.company ?? other.name;
   const otherInactive = other.status !== "ACTIVE";
 
   return (
     <div className="mx-auto max-w-[760px] px-4 py-8">
       <Link
         href="/inbox"
-        className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-muted hover:text-ink"
+        className="text-muted hover:text-ink inline-flex items-center gap-1.5 text-[14px] font-semibold"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
         {t("backToInbox")}
@@ -55,20 +61,20 @@ export default async function ThreadPage({
       <Card className="mt-4 p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="truncate text-[20px] font-bold text-ink">{company}</h1>
-            <p className="truncate text-[14px] text-muted">{other.name}</p>
+            <h1 className="text-ink truncate text-[20px] font-bold">{company}</h1>
+            <p className="text-muted truncate text-[14px]">{other.name}</p>
           </div>
           {otherInactive ? <Badge tone="danger">{t("inactiveParty")}</Badge> : null}
         </div>
 
         {thread.asset ? (
           <Link href={`/assets/${thread.asset.ref}`} className="mt-3 block">
-            <div className="rounded-xl border border-line bg-panel px-3.5 py-3 transition-colors hover:border-line-strong">
-              <p className="text-[13px] text-muted">{t("aboutListing")}</p>
-              <p className="mt-0.5 truncate text-[15px] font-semibold text-ink">
+            <div className="border-line bg-panel hover:border-line-strong rounded-xl border px-3.5 py-3 transition-colors">
+              <p className="text-muted text-[13px]">{t("aboutListing")}</p>
+              <p className="text-ink mt-0.5 truncate text-[15px] font-semibold">
                 #{thread.asset.ref} · {thread.asset.title}
               </p>
-              <p className="mt-0.5 truncate text-[13px] text-muted">
+              <p className="text-muted mt-0.5 truncate text-[13px]">
                 {CATEGORY_LABELS[thread.asset.category]} ·{" "}
                 {LICENSE_LABELS[thread.asset.licenseType]} ·{" "}
                 {countryName(thread.asset.country)} ·{" "}
@@ -87,16 +93,17 @@ export default async function ThreadPage({
         {thread.messages.map((message) => {
           const mine = message.senderId === me.id;
           return (
-            <li key={message.id} className={cn("flex", mine ? "justify-end" : "justify-start")}>
+            <li
+              key={message.id}
+              className={cn("flex", mine ? "justify-end" : "justify-start")}
+            >
               <div
                 className={cn(
                   "max-w-[80%] rounded-2xl px-4 py-3",
-                  mine
-                    ? "bg-brand text-white"
-                    : "border border-line bg-white text-body",
+                  mine ? "bg-brand text-white" : "border-line text-body border bg-white",
                 )}
               >
-                <p className="whitespace-pre-line text-[15px] leading-relaxed">
+                <p className="text-[15px] leading-relaxed whitespace-pre-line">
                   {message.body}
                 </p>
                 <p
@@ -120,7 +127,7 @@ export default async function ThreadPage({
 
       <div className="mt-4">
         {otherInactive ? (
-          <Card className="border-warning/30 bg-warning-soft p-4 text-[14px] text-muted">
+          <Card className="border-warning/30 bg-warning-soft text-muted p-4 text-[14px]">
             {t("cannotReply")}
           </Card>
         ) : (

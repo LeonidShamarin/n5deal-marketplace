@@ -83,7 +83,11 @@ export function scoreMatch({ asset, mandate }: MatchInput): MatchResult {
   factors.push({
     key: "category",
     weight: MATCH_WEIGHTS.category,
-    points: categoryHit ? (categoryOpen ? MATCH_WEIGHTS.category * 0.6 : MATCH_WEIGHTS.category) : 0,
+    points: categoryHit
+      ? categoryOpen
+        ? MATCH_WEIGHTS.category * 0.6
+        : MATCH_WEIGHTS.category
+      : 0,
     hit: categoryHit,
     detail: categoryOpen
       ? "The mandate names no target sector, so the sector is not a constraint."
@@ -98,7 +102,11 @@ export function scoreMatch({ asset, mandate }: MatchInput): MatchResult {
   factors.push({
     key: "country",
     weight: MATCH_WEIGHTS.country,
-    points: countryHit ? (countryOpen ? MATCH_WEIGHTS.country * 0.6 : MATCH_WEIGHTS.country) : 0,
+    points: countryHit
+      ? countryOpen
+        ? MATCH_WEIGHTS.country * 0.6
+        : MATCH_WEIGHTS.country
+      : 0,
     hit: countryHit,
     detail: countryOpen
       ? "The mandate names no target jurisdiction."
@@ -109,7 +117,8 @@ export function scoreMatch({ asset, mandate }: MatchInput): MatchResult {
 
   // --- Licence type -------------------------------------------------------
   const licenceOpen = mandate.targetLicenseTypes.length === 0;
-  const licenceHit = licenceOpen || mandate.targetLicenseTypes.includes(asset.licenseType);
+  const licenceHit =
+    licenceOpen || mandate.targetLicenseTypes.includes(asset.licenseType);
   factors.push({
     key: "licenseType",
     weight: MATCH_WEIGHTS.licenseType,
@@ -189,7 +198,8 @@ function scoreTicket(
     if (overshoot <= 0.2) {
       return {
         fraction: 0.5,
-        detail: "The asking price is slightly above the buyer's ceiling — within negotiating distance.",
+        detail:
+          "The asking price is slightly above the buyer's ceiling — within negotiating distance.",
       };
     }
     return {
@@ -198,7 +208,10 @@ function scoreTicket(
     };
   }
 
-  return { fraction: 1, detail: "The asking price sits inside the buyer's ticket range." };
+  return {
+    fraction: 1,
+    detail: "The asking price sits inside the buyer's ticket range.",
+  };
 }
 
 function clamp(value: number, low: number, high: number): number {

@@ -52,17 +52,21 @@ export function BuyerCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="truncate text-[18px] font-bold leading-tight text-ink">
+              <h3 className="text-ink truncate text-[18px] leading-tight font-bold">
                 {buyer.company}
               </h3>
-              <p className="truncate text-[14px] text-muted">
+              <p className="text-muted truncate text-[14px]">
                 {buyer.user.name} · {countryName(buyer.country)}
               </p>
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
               {matchScore !== undefined ? (
-                <Badge tone={matchScore >= 75 ? "success" : matchScore >= 50 ? "brand" : "neutral"}>
+                <Badge
+                  tone={
+                    matchScore >= 75 ? "success" : matchScore >= 50 ? "brand" : "neutral"
+                  }
+                >
                   <Target className="h-3.5 w-3.5" aria-hidden />
                   {matchScore}%
                 </Badge>
@@ -81,7 +85,12 @@ export function BuyerCard({
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
             <AttributeCell
               label={t("ticketSize")}
-              value={formatRange(buyer.ticketMin, buyer.ticketMax, buyer.currency, locale)}
+              value={formatRange(
+                buyer.ticketMin,
+                buyer.ticketMax,
+                buyer.currency,
+                locale,
+              )}
               emphasis
             />
             <AttributeCell
@@ -100,32 +109,34 @@ export function BuyerCard({
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <span className="text-[13px] text-muted">{t("targetCategories")}</span>
+            <span className="text-muted text-[13px]">{t("targetCategories")}</span>
             {categories.length === 0 ? (
-              <span className="text-[13px] text-faint">{tc("any")}</span>
+              <span className="text-faint text-[13px]">{tc("any")}</span>
             ) : (
               categories.map((category) => (
                 <Chip key={category}>{CATEGORY_LABELS[category]}</Chip>
               ))
             )}
             {categoryOverflow > 0 ? (
-              <span className="text-[13px] font-bold text-brand">+{categoryOverflow}</span>
+              <span className="text-brand text-[13px] font-bold">
+                +{categoryOverflow}
+              </span>
             ) : null}
           </div>
 
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
-            <span className="text-[13px] text-muted">{t("targetCountries")}</span>
+            <span className="text-muted text-[13px]">{t("targetCountries")}</span>
             {countries.length === 0 ? (
-              <span className="text-[13px] text-faint">{tc("any")}</span>
+              <span className="text-faint text-[13px]">{tc("any")}</span>
             ) : (
               countries.map((code) => <Chip key={code}>{countryName(code)}</Chip>)
             )}
             {countryOverflow > 0 ? (
-              <span className="text-[13px] font-bold text-brand">+{countryOverflow}</span>
+              <span className="text-brand text-[13px] font-bold">+{countryOverflow}</span>
             ) : null}
           </div>
 
-          <p className="mt-3 line-clamp-2-safe text-[14px] leading-relaxed text-muted">
+          <p className="line-clamp-2-safe text-muted mt-3 text-[14px] leading-relaxed">
             {buyer.thesis}
           </p>
 

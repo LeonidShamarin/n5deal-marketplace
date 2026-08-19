@@ -17,7 +17,7 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "rounded-2xl border border-line bg-white shadow-[var(--shadow-card)]",
+        "border-line rounded-2xl border bg-white shadow-[var(--shadow-card)]",
         className,
       )}
       {...props}
@@ -56,15 +56,15 @@ export function AttributeCell({
       className={cn(
         "min-w-0 px-3 py-2",
         emphasis
-          ? "rounded-[var(--radius-cell)] border border-brand-border bg-panel"
+          ? "border-brand-border bg-panel rounded-[var(--radius-cell)] border"
           : "border-line",
         className,
       )}
     >
-      <div className="truncate text-[13px] font-medium text-muted">{label}</div>
+      <div className="text-muted truncate text-[13px] font-medium">{label}</div>
       <div
         className={cn(
-          "truncate text-[15px] font-semibold tabular",
+          "tabular truncate text-[15px] font-semibold",
           emphasis ? "text-brand" : valueTone,
         )}
       >
@@ -110,8 +110,8 @@ export function Chip({ className, ...props }: HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-line bg-panel px-3 py-1 " +
-          "text-[13px] font-medium text-ink",
+        "border-line bg-panel inline-flex items-center rounded-full border px-3 py-1 " +
+          "text-ink text-[13px] font-medium",
         className,
       )}
       {...props}
@@ -138,13 +138,15 @@ export function Textarea({
   className,
   ...props
 }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea className={cn(control, "min-h-28 py-2.5 leading-relaxed", className)} {...props} />;
+  return (
+    <textarea
+      className={cn(control, "min-h-28 py-2.5 leading-relaxed", className)}
+      {...props}
+    />
+  );
 }
 
-export function Select({
-  className,
-  ...props
-}: SelectHTMLAttributes<HTMLSelectElement>) {
+export function Select({ className, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       className={cn(control, "h-11 cursor-pointer appearance-none pr-9", className)}
@@ -178,16 +180,16 @@ export function Field({
 
   return (
     <div className={cn("space-y-1.5", className)}>
-      <label htmlFor={id} className="block text-[14px] font-semibold text-ink">
+      <label htmlFor={id} className="text-ink block text-[14px] font-semibold">
         {label}
-        {required ? <span className="ml-0.5 text-danger">*</span> : null}
+        {required ? <span className="text-danger ml-0.5">*</span> : null}
       </label>
       {children}
       {hint && messages.length === 0 ? (
-        <p className="text-[13px] text-muted">{hint}</p>
+        <p className="text-muted text-[13px]">{hint}</p>
       ) : null}
       {messages.length > 0 ? (
-        <p id={`${id}-error`} className="text-[13px] font-medium text-danger">
+        <p id={`${id}-error`} className="text-danger text-[13px] font-medium">
           {messages.join(" ")}
         </p>
       ) : null}
@@ -211,9 +213,9 @@ export function PageHeading({
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <h1 className="text-[26px] font-bold leading-tight text-ink">{title}</h1>
+        <h1 className="text-ink text-[26px] leading-tight font-bold">{title}</h1>
         {description ? (
-          <p className="mt-1 text-[15px] text-muted">{description}</p>
+          <p className="text-muted mt-1 text-[15px]">{description}</p>
         ) : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
@@ -237,11 +239,11 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-line-strong bg-panel px-6 py-14 text-center">
-      {icon ? <div className="mb-3 flex justify-center text-faint">{icon}</div> : null}
-      <p className="text-[17px] font-semibold text-ink">{title}</p>
+    <div className="border-line-strong bg-panel rounded-2xl border border-dashed px-6 py-14 text-center">
+      {icon ? <div className="text-faint mb-3 flex justify-center">{icon}</div> : null}
+      <p className="text-ink text-[17px] font-semibold">{title}</p>
       {description ? (
-        <p className="mx-auto mt-1.5 max-w-md text-[15px] text-muted">{description}</p>
+        <p className="text-muted mx-auto mt-1.5 max-w-md text-[15px]">{description}</p>
       ) : null}
       {action ? <div className="mt-5 flex justify-center">{action}</div> : null}
     </div>

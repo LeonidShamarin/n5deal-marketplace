@@ -64,10 +64,7 @@ export default async function AuditPage() {
   return (
     <ol className="space-y-2">
       {events.map((event) => {
-        const target =
-          event.targetType === "USER"
-            ? event.targetUser
-            : null;
+        const target = event.targetType === "USER" ? event.targetUser : null;
 
         const targetLabel =
           event.targetType === "USER"
@@ -85,16 +82,18 @@ export default async function AuditPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge tone={toneFor(event.action)}>{t(`action_${event.action}`)}</Badge>
+                    <Badge tone={toneFor(event.action)}>
+                      {t(`action_${event.action}`)}
+                    </Badge>
                     <Badge tone="neutral">{t(`target_${event.targetType}`)}</Badge>
                     {target?.role ? (
-                      <span className="text-[13px] text-faint">
+                      <span className="text-faint text-[13px]">
                         {ROLE_LABELS[target.role]}
                       </span>
                     ) : null}
                   </div>
 
-                  <p className="mt-1 truncate text-[15px] font-semibold text-ink">
+                  <p className="text-ink mt-1 truncate text-[15px] font-semibold">
                     {event.targetType === "ASSET" && event.targetAsset ? (
                       <Link
                         href={`/assets/${event.targetAsset.ref}`}
@@ -107,14 +106,14 @@ export default async function AuditPage() {
                     )}
                   </p>
 
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-muted">
+                  <p className="text-muted mt-1.5 text-[14px] leading-relaxed">
                     {event.reason}
                   </p>
                 </div>
 
                 <div className="shrink-0 text-right">
-                  <p className="text-[13px] font-semibold text-ink">{event.actor.name}</p>
-                  <p className="text-[12px] text-faint">
+                  <p className="text-ink text-[13px] font-semibold">{event.actor.name}</p>
+                  <p className="text-faint text-[12px]">
                     {format.dateTime(event.createdAt, {
                       day: "numeric",
                       month: "short",
@@ -124,7 +123,7 @@ export default async function AuditPage() {
                     })}
                   </p>
                   {event.previousStatus ? (
-                    <p className="mt-1 text-[12px] text-faint">
+                    <p className="text-faint mt-1 text-[12px]">
                       {t("wasBefore", { status: event.previousStatus })}
                     </p>
                   ) : null}

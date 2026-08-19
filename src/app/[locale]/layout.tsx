@@ -56,10 +56,10 @@ export default async function LocaleLayout({
           <div className="flex min-h-dvh flex-col">
             <SiteHeader />
             <main className="flex-1">{children}</main>
-            <footer className="border-t border-line py-6">
-              <div className="mx-auto max-w-[1200px] px-4 text-[13px] text-faint">
-                N5Deal marketplace prototype — built as a technical assignment.
-                Data is fictional.
+            <footer className="border-line border-t py-6">
+              <div className="text-faint mx-auto max-w-[1200px] px-4 text-[13px]">
+                N5Deal marketplace prototype — built as a technical assignment. Data is
+                fictional.
               </div>
             </footer>
           </div>

@@ -11,9 +11,9 @@ import {
  *
  * This is the deterministic half of the "smart validation" feature. It catches
  * the contradictions that are facts rather than opinions — an EMI in a country
- * that does not issue EMI licences, an operating business with no staff, a
- * licence dated in the future — and it runs with no API key, no network and no
- * latency.
+ * that does not issue EMI licences, an operating business with no staff, a price
+ * an order of magnitude under market — and it runs with no API key, no network
+ * and no latency.
  *
  * The model's job is the other half: reading the prose and suggesting what a
  * buyer would want added. It cannot overrule anything here.
@@ -36,7 +36,6 @@ const MIN_PLAUSIBLE_PRICE_MAJOR: Partial<Record<AssetInput["licenseType"], numbe
 
 export function reviewListing(input: AssetInput): ReviewIssue[] {
   const issues: ReviewIssue[] = [];
-  const currentYear = new Date().getFullYear();
 
   // --- Jurisdiction vs licence type --------------------------------------
   const offered = LICENSES_BY_COUNTRY[input.country];
@@ -77,14 +76,9 @@ export function reviewListing(input: AssetInput): ReviewIssue[] {
     });
   }
 
-  // --- Dates --------------------------------------------------------------
-  if (input.yearOfIssue !== null && input.yearOfIssue > currentYear) {
-    issues.push({
-      severity: "error",
-      field: "yearOfIssue",
-      message: "The licence cannot have been issued in the future.",
-    });
-  }
+  // A future year of issue is deliberately NOT checked here. `assetInputSchema`
+  // already refuses it, and the reviewer only ever runs on schema-parsed input,
+  // so a rule here would be unreachable code pretending to be a safeguard.
 
   // --- Price plausibility -------------------------------------------------
   const floor = MIN_PLAUSIBLE_PRICE_MAJOR[input.licenseType];
@@ -118,7 +112,8 @@ export function reviewListing(input: AssetInput): ReviewIssue[] {
     issues.push({
       severity: "hint",
       field: "yearOfIssue",
-      message: "Buyers filter on licence age. Adding the year of issue makes the listing findable.",
+      message:
+        "Buyers filter on licence age. Adding the year of issue makes the listing findable.",
     });
   }
 

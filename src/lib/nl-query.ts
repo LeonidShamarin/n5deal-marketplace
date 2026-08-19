@@ -21,16 +21,17 @@ import {
 } from "./vocabulary";
 
 /** Words that should pull in a category, beyond the category name itself. */
-const CATEGORY_KEYWORDS: Record<(typeof BUSINESS_CATEGORIES)[number], readonly string[]> = {
-  PAYMENTS: ["payment", "payments", "psp", "acquiring", "merchant", "remittance"],
-  FINTECH: ["fintech", "neobank", "embedded finance", "bnpl"],
-  CRYPTO: ["crypto", "digital asset", "digital assets", "vasp", "exchange", "custody"],
-  BANKING: ["bank", "banking", "deposit", "credit institution"],
-  EMONEY: ["e-money", "emoney", "electronic money", "emi", "iban", "wallet"],
-  FOREX: ["forex", "fx", "brokerage", "broker"],
-  LENDING: ["lending", "loan", "loans", "credit", "consumer finance"],
-  GAMBLING: ["gambling", "gaming", "casino", "betting"],
-};
+const CATEGORY_KEYWORDS: Record<(typeof BUSINESS_CATEGORIES)[number], readonly string[]> =
+  {
+    PAYMENTS: ["payment", "payments", "psp", "acquiring", "merchant", "remittance"],
+    FINTECH: ["fintech", "neobank", "embedded finance", "bnpl"],
+    CRYPTO: ["crypto", "digital asset", "digital assets", "vasp", "exchange", "custody"],
+    BANKING: ["bank", "banking", "deposit", "credit institution"],
+    EMONEY: ["e-money", "emoney", "electronic money", "emi", "iban", "wallet"],
+    FOREX: ["forex", "fx", "brokerage", "broker"],
+    LENDING: ["lending", "loan", "loans", "credit", "consumer finance"],
+    GAMBLING: ["gambling", "gaming", "casino", "betting"],
+  };
 
 /** Free-text aliases for jurisdictions, so "Lithuania" and "LT" both land. */
 const COUNTRY_ALIASES: Readonly<Record<string, string>> = {
@@ -50,8 +51,30 @@ const COUNTRY_ALIASES: Readonly<Record<string, string>> = {
 
 /** Members of the EU among the jurisdictions this app knows about. */
 const EU_COUNTRIES = [
-  "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "IE",
-  "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK",
+  "AT",
+  "BE",
+  "BG",
+  "CY",
+  "CZ",
+  "DE",
+  "DK",
+  "EE",
+  "ES",
+  "FI",
+  "FR",
+  "IE",
+  "IT",
+  "LT",
+  "LU",
+  "LV",
+  "MT",
+  "NL",
+  "PL",
+  "PT",
+  "RO",
+  "SE",
+  "SI",
+  "SK",
 ] as const;
 
 /**
@@ -59,8 +82,9 @@ const EU_COUNTRIES = [
  * "1,500,000". Returns whole major units.
  */
 function parseSpokenAmount(raw: string): number | null {
-  const match =
-    /([0-9][0-9\s.,]*)\s*(k|thousand|m|mln|million|bn|billion)?/i.exec(raw.trim());
+  const match = /([0-9][0-9\s.,]*)\s*(k|thousand|m|mln|million|bn|billion)?/i.exec(
+    raw.trim(),
+  );
   if (!match) return null;
 
   const [, digits, unit] = match;
@@ -110,10 +134,15 @@ export function parseNaturalQuery(input: string): AiFilterProposal {
   }
 
   for (const country of COUNTRIES) {
+    // Country names match case-insensitively — nobody capitalises consistently
+    // in a search box.
     if (includesWord(text, country.name.toLowerCase())) countries.add(country.code);
-    // Two-letter codes only count when written as a standalone token, otherwise
-    // "it" in "is it active" would select Italy.
-    if (new RegExp(`\\b${country.code.toLowerCase()}\\b`).test(text)) {
+
+    // A bare two-letter code is accepted only when it was written in capitals.
+    // A word boundary alone is not enough: IT, AT, BE, IN, IS and US are all
+    // ordinary English words, and "is it an operating business" was selecting
+    // Italy. Anyone who means the country writes "EMI in LT", not "emi in lt".
+    if (new RegExp(`(^|[^A-Za-z0-9])${country.code}([^A-Za-z0-9]|$)`).test(input)) {
       countries.add(country.code);
     }
   }
@@ -186,11 +215,40 @@ function residualText(input: string, proposal: AiFilterProposal): string {
   let rest = input;
 
   const removals: string[] = [
-    "under", "below", "less than", "up to", "maximum", "max", "cheaper than",
-    "over", "above", "more than", "at least", "minimum", "min", "starting at",
-    "between", "and", "from", "to", "with", "in", "the", "a", "an", "for",
-    "licence", "license", "only", "clean", "operating", "active", "business",
-    "eu", "european union", "europe",
+    "under",
+    "below",
+    "less than",
+    "up to",
+    "maximum",
+    "max",
+    "cheaper than",
+    "over",
+    "above",
+    "more than",
+    "at least",
+    "minimum",
+    "min",
+    "starting at",
+    "between",
+    "and",
+    "from",
+    "to",
+    "with",
+    "in",
+    "the",
+    "a",
+    "an",
+    "for",
+    "licence",
+    "license",
+    "only",
+    "clean",
+    "operating",
+    "active",
+    "business",
+    "eu",
+    "european union",
+    "europe",
   ];
 
   for (const category of proposal.categories ?? []) {
@@ -200,9 +258,14 @@ function residualText(input: string, proposal: AiFilterProposal): string {
     removals.push(licence === "API_LICENSE" ? "api" : licence);
   }
   for (const country of COUNTRIES) {
-    if (proposal.countries?.includes(country.code)) {
-      removals.push(country.name, country.code);
-    }
+    if (!proposal.countries?.includes(country.code)) continue;
+    // Only the name is removed case-insensitively; the bare code is stripped
+    // separately below so that lowercase English words survive.
+    removals.push(country.name);
+    rest = rest.replace(
+      new RegExp(`(^|[^A-Za-z0-9])${country.code}([^A-Za-z0-9]|$)`, "g"),
+      " ",
+    );
   }
   for (const [alias, code] of Object.entries(COUNTRY_ALIASES)) {
     if (proposal.countries?.includes(code)) removals.push(alias);

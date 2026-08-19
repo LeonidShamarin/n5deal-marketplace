@@ -39,7 +39,9 @@ export default async function ModerationAssetsPage({
   await requireRole("MANAGER");
 
   const params = await searchParams;
-  const q = String(params.q ?? "").trim().slice(0, 120);
+  const q = String(params.q ?? "")
+    .trim()
+    .slice(0, 120);
   const status = String(params.status ?? "");
 
   const [t, tc, format, locale] = await Promise.all([
@@ -104,7 +106,7 @@ export default async function ModerationAssetsPage({
     <div>
       <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
         <SearchBox placeholder={t("searchAssets")} />
-        <div className="flex flex-wrap items-center gap-1 rounded-full border border-line bg-panel p-1">
+        <div className="border-line bg-panel flex flex-wrap items-center gap-1 rounded-full border p-1">
           {["", ...validStatuses].map((value) => {
             const active = status === value;
             return (
@@ -117,8 +119,8 @@ export default async function ModerationAssetsPage({
                 }
                 className={
                   active
-                    ? "rounded-full bg-ink px-3 py-1.5 text-[13px] font-semibold text-white"
-                    : "rounded-full px-3 py-1.5 text-[13px] font-semibold text-muted hover:text-ink"
+                    ? "bg-ink rounded-full px-3 py-1.5 text-[13px] font-semibold text-white"
+                    : "text-muted hover:text-ink rounded-full px-3 py-1.5 text-[13px] font-semibold"
                 }
               >
                 {value === ""
@@ -130,7 +132,7 @@ export default async function ModerationAssetsPage({
         </div>
       </div>
 
-      <p className="mt-4 text-[14px] text-muted">
+      <p className="text-muted mt-4 text-[14px]">
         {tc("results", { count: assets.length })}
       </p>
 
@@ -160,11 +162,13 @@ export default async function ModerationAssetsPage({
                       <div className="flex flex-wrap items-center gap-2">
                         <Link
                           href={`/assets/${asset.ref}`}
-                          className="text-[15px] font-bold text-ink hover:text-brand"
+                          className="text-ink hover:text-brand text-[15px] font-bold"
                         >
                           #{asset.ref}
                         </Link>
-                        <Badge tone={asset.status === "PUBLISHED" ? "success" : "neutral"}>
+                        <Badge
+                          tone={asset.status === "PUBLISHED" ? "success" : "neutral"}
+                        >
                           {ASSET_STATUS_LABELS[asset.status]}
                         </Badge>
                         {hiddenBySeller ? (
@@ -176,17 +180,18 @@ export default async function ModerationAssetsPage({
                         ) : null}
                       </div>
 
-                      <p className="mt-0.5 truncate text-[15px] text-ink">{asset.title}</p>
-                      <p className="mt-0.5 truncate text-[13px] text-muted">
+                      <p className="text-ink mt-0.5 truncate text-[15px]">
+                        {asset.title}
+                      </p>
+                      <p className="text-muted mt-0.5 truncate text-[13px]">
                         {asset.seller.sellerProfile?.company ?? asset.seller.name} ·{" "}
                         {CATEGORY_LABELS[asset.category]} ·{" "}
-                        {LICENSE_LABELS[asset.licenseType]} ·{" "}
-                        {countryName(asset.country)} ·{" "}
-                        {formatMoneyCompact(asset.askingPrice, asset.currency, locale)}
+                        {LICENSE_LABELS[asset.licenseType]} · {countryName(asset.country)}{" "}
+                        · {formatMoneyCompact(asset.askingPrice, asset.currency, locale)}
                       </p>
 
                       {asset.statusReason ? (
-                        <p className="mt-2 rounded-lg bg-danger-soft px-2.5 py-1.5 text-[13px] text-danger">
+                        <p className="bg-danger-soft text-danger mt-2 rounded-lg px-2.5 py-1.5 text-[13px]">
                           {asset.statusReason}
                           {asset.statusChangedAt
                             ? ` — ${format.relativeTime(asset.statusChangedAt)}`
@@ -201,17 +206,17 @@ export default async function ModerationAssetsPage({
                     </div>
 
                     <ModerationActions
-                        targetId={asset.id}
-                        actions={
-                          asset.status === "SUSPENDED"
-                            ? [{ kind: "unsuspendAsset", label: t("unsuspend") }]
-                            : [
-                                {
-                                  kind: "suspendAsset",
-                                  label: t("suspend"),
-                                  danger: true,
-                                },
-                              ]
+                      targetId={asset.id}
+                      actions={
+                        asset.status === "SUSPENDED"
+                          ? [{ kind: "unsuspendAsset", label: t("unsuspend") }]
+                          : [
+                              {
+                                kind: "suspendAsset",
+                                label: t("suspend"),
+                                danger: true,
+                              },
+                            ]
                       }
                     />
                   </div>

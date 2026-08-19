@@ -48,10 +48,10 @@ export function ContactPanel({
   if (!canContact) {
     return (
       <Card className="p-5">
-        <p className="text-[14px] font-semibold text-ink">
+        <p className="text-ink text-[14px] font-semibold">
           {variant === "seller" ? t("contactSeller") : t("contactBuyer")}
         </p>
-        <p className="mt-1 text-[13px] text-muted">
+        <p className="text-muted mt-1 text-[13px]">
           {viewerRole === null
             ? t("signInToContact")
             : viewerRole === "MANAGER"
@@ -98,10 +98,10 @@ export function ContactPanel({
 
   return (
     <Card className="p-5">
-      <p className="text-[14px] font-semibold text-ink">
+      <p className="text-ink text-[14px] font-semibold">
         {variant === "seller" ? t("contactSeller") : t("contactBuyer")}
       </p>
-      <p className="mt-1 text-[13px] text-muted">{t("hint")}</p>
+      <p className="text-muted mt-1 text-[13px]">{t("hint")}</p>
 
       {open ? (
         <div className="mt-3 space-y-3">
@@ -146,7 +146,7 @@ export function ContactPanel({
       )}
 
       {notice ? (
-        <p className="mt-2 text-[13px] font-medium text-success" role="status">
+        <p className="text-success mt-2 text-[13px] font-medium" role="status">
           {notice}
         </p>
       ) : null}

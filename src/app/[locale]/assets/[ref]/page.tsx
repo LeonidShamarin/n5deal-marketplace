@@ -61,10 +61,10 @@ export default async function AssetDetailPage({
   if (lookup.kind === "gone") {
     return (
       <div className="mx-auto max-w-[720px] px-4 py-20 text-center">
-        <Info className="mx-auto h-10 w-10 text-warning" aria-hidden />
-        <h1 className="mt-4 text-[26px] font-bold text-ink">{t("goneTitle")}</h1>
-        <p className="mt-2 text-[15px] text-muted">{t("goneBody")}</p>
-        <p className="mt-1 text-[13px] text-faint">
+        <Info className="text-warning mx-auto h-10 w-10" aria-hidden />
+        <h1 className="text-ink mt-4 text-[26px] font-bold">{t("goneTitle")}</h1>
+        <p className="text-muted mt-2 text-[15px]">{t("goneBody")}</p>
+        <p className="text-faint mt-1 text-[13px]">
           {ta("idLabel", { ref: asset.ref })} · {CATEGORY_LABELS[asset.category]} ·{" "}
           {countryName(asset.country)}
         </p>
@@ -96,7 +96,7 @@ export default async function AssetDetailPage({
     <div className="mx-auto max-w-[1000px] px-4 py-8">
       <Link
         href="/assets"
-        className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-muted hover:text-ink"
+        className="text-muted hover:text-ink inline-flex items-center gap-1.5 text-[14px] font-semibold"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
         {t("backToCatalogue")}
@@ -105,12 +105,12 @@ export default async function AssetDetailPage({
       {/* A listing that is not live says so, in its own words, to whoever is
           allowed to see it at all (its owner or a manager). */}
       {asset.status !== "PUBLISHED" ? (
-        <Card className="mt-4 border-warning/30 bg-warning-soft p-4">
-          <p className="text-[14px] font-semibold text-ink">
+        <Card className="border-warning/30 bg-warning-soft mt-4 p-4">
+          <p className="text-ink text-[14px] font-semibold">
             {t("notLive", { status: ASSET_STATUS_LABELS[asset.status] })}
           </p>
           {asset.statusReason ? (
-            <p className="mt-1 text-[14px] text-muted">{asset.statusReason}</p>
+            <p className="text-muted mt-1 text-[14px]">{asset.statusReason}</p>
           ) : null}
         </Card>
       ) : null}
@@ -122,11 +122,11 @@ export default async function AssetDetailPage({
               <CountryTile code={asset.country} className="hidden h-20 w-28 sm:grid" />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-[24px] font-bold leading-tight text-ink">
+                  <h1 className="text-ink text-[24px] leading-tight font-bold">
                     {ta("idLabel", { ref: asset.ref })}
                   </h1>
                   {asset.seller.sellerProfile?.verified ? (
-                    <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-success">
+                    <span className="text-success inline-flex items-center gap-1 text-[13px] font-semibold">
                       <BadgeCheck className="h-4 w-4" aria-hidden />
                       {ta("validated")}
                     </span>
@@ -135,8 +135,8 @@ export default async function AssetDetailPage({
                     <Badge tone="neutral">{ASSET_STATUS_LABELS[asset.status]}</Badge>
                   ) : null}
                 </div>
-                <p className="mt-1 text-[17px] font-semibold text-ink">{asset.title}</p>
-                <p className="mt-1 flex items-center gap-1.5 text-[13px] text-muted">
+                <p className="text-ink mt-1 text-[17px] font-semibold">{asset.title}</p>
+                <p className="text-muted mt-1 flex items-center gap-1.5 text-[13px]">
                   <Eye className="h-4 w-4" aria-hidden />
                   {ta("views", { count: asset.viewCount })}
                 </p>
@@ -171,7 +171,7 @@ export default async function AssetDetailPage({
 
             {asset.benefits.length > 0 ? (
               <div className="mt-5">
-                <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+                <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                   {ta("included")}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -183,10 +183,10 @@ export default async function AssetDetailPage({
             ) : null}
 
             <div className="mt-5">
-              <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+              <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                 {t("description")}
               </p>
-              <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-body">
+              <p className="text-body mt-2 text-[15px] leading-relaxed whitespace-pre-line">
                 {asset.description}
               </p>
             </div>
@@ -195,34 +195,34 @@ export default async function AssetDetailPage({
 
         <aside className="space-y-4">
           <Card className="p-5">
-            <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+            <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
               {t("seller")}
             </p>
             <div className="mt-2 flex items-start gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+              <span className="bg-brand-soft text-brand grid h-10 w-10 shrink-0 place-items-center rounded-xl">
                 <Building2 className="h-5 w-5" aria-hidden />
               </span>
               <div className="min-w-0">
-                <p className="truncate text-[15px] font-bold text-ink">
+                <p className="text-ink truncate text-[15px] font-bold">
                   {asset.seller.sellerProfile?.company ?? asset.seller.name}
                 </p>
-                <p className="truncate text-[13px] text-muted">{asset.seller.name}</p>
+                <p className="text-muted truncate text-[13px]">{asset.seller.name}</p>
                 {asset.seller.sellerProfile?.country ? (
-                  <p className="mt-0.5 text-[13px] text-faint">
+                  <p className="text-faint mt-0.5 text-[13px]">
                     {countryName(asset.seller.sellerProfile.country)}
                   </p>
                 ) : null}
               </div>
             </div>
             {asset.seller.sellerProfile?.about ? (
-              <p className="mt-3 text-[14px] leading-relaxed text-muted">
+              <p className="text-muted mt-3 text-[14px] leading-relaxed">
                 {asset.seller.sellerProfile.about}
               </p>
             ) : null}
 
-            <div className="mt-4 rounded-xl bg-panel px-3.5 py-3">
-              <p className="text-[13px] text-muted">{ta("askingPrice")}</p>
-              <p className="text-[22px] font-bold tabular text-brand">
+            <div className="bg-panel mt-4 rounded-xl px-3.5 py-3">
+              <p className="text-muted text-[13px]">{ta("askingPrice")}</p>
+              <p className="tabular text-brand text-[22px] font-bold">
                 {formatMoneyCompact(asset.askingPrice, asset.currency, currentLocale)}
               </p>
             </div>
@@ -230,8 +230,8 @@ export default async function AssetDetailPage({
 
           {isOwner ? (
             <Card className="p-5">
-              <p className="text-[14px] font-semibold text-ink">{t("yourListing")}</p>
-              <p className="mt-1 text-[13px] text-muted">{t("yourListingHint")}</p>
+              <p className="text-ink text-[14px] font-semibold">{t("yourListing")}</p>
+              <p className="text-muted mt-1 text-[13px]">{t("yourListingHint")}</p>
               <Link href={`/dashboard/listings/${asset.ref}`} className="mt-3 block">
                 <Button full variant="outline">
                   {t("editListing")}
@@ -250,8 +250,8 @@ export default async function AssetDetailPage({
 
           {isManager ? (
             <Card className="border-danger/20 p-5">
-              <p className="text-[14px] font-semibold text-ink">{t("moderation")}</p>
-              <p className="mt-1 text-[13px] text-muted">{t("moderationHint")}</p>
+              <p className="text-ink text-[14px] font-semibold">{t("moderation")}</p>
+              <p className="text-muted mt-1 text-[13px]">{t("moderationHint")}</p>
               <Link href="/moderation/assets" className="mt-3 block">
                 <Button full variant="dangerOutline">
                   {t("openModeration")}

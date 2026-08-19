@@ -63,9 +63,7 @@ Rules:
 - Do not invent facts about the entity.
 - If the draft is genuinely complete, return an empty list.`;
 
-export async function reviewListingAction(
-  input: unknown,
-): Promise<ListingReviewResult> {
+export async function reviewListingAction(input: unknown): Promise<ListingReviewResult> {
   // Reviewing a draft costs a model call, so it is behind the same role guard as
   // creating one — this endpoint is not an open text-generation service.
   await requireActionRole("SELLER");
@@ -75,13 +73,17 @@ export async function reviewListingAction(
   // A draft that does not even parse gets the schema's own errors. There is
   // nothing useful for a model to say about a missing licence type.
   if (!parsed.success) {
-    const fieldErrors = z.flattenError(parsed.error).fieldErrors as Record<string, string[]>;
-    const issues: ReviewIssue[] = Object.entries(fieldErrors).flatMap(([field, messages]) =>
-      (messages ?? []).map((message) => ({
-        severity: "error" as const,
-        field: field as ReviewIssue["field"],
-        message,
-      })),
+    const fieldErrors = z.flattenError(parsed.error).fieldErrors as Record<
+      string,
+      string[]
+    >;
+    const issues: ReviewIssue[] = Object.entries(fieldErrors).flatMap(
+      ([field, messages]) =>
+        (messages ?? []).map((message) => ({
+          severity: "error" as const,
+          field: field as ReviewIssue["field"],
+          message,
+        })),
     );
     return { issues, publishable: false, aiUsed: false };
   }

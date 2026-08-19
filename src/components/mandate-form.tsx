@@ -114,17 +114,17 @@ export function MandateForm({ initial }: { initial: MandateFormValues }) {
       </Card>
 
       <Card className="space-y-4 p-5">
-        <p className="text-[14px] font-semibold text-ink">{t("targets")}</p>
+        <p className="text-ink text-[14px] font-semibold">{t("targets")}</p>
 
         <fieldset>
-          <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+          <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
             {tb("targetCategories")}
           </legend>
           <div className="grid gap-1.5 sm:grid-cols-3">
             {BUSINESS_CATEGORIES.map((value) => (
               <label
                 key={value}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px] text-muted hover:bg-panel"
+                className="text-muted hover:bg-panel flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px]"
               >
                 <input
                   type="checkbox"
@@ -137,18 +137,18 @@ export function MandateForm({ initial }: { initial: MandateFormValues }) {
               </label>
             ))}
           </div>
-          <p className="mt-1 text-[12px] text-faint">{t("emptyMeansAny")}</p>
+          <p className="text-faint mt-1 text-[12px]">{t("emptyMeansAny")}</p>
         </fieldset>
 
-        <fieldset className="border-t border-line pt-4">
-          <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+        <fieldset className="border-line border-t pt-4">
+          <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
             {tb("targetLicenses")}
           </legend>
           <div className="grid gap-1.5 sm:grid-cols-2">
             {LICENSE_TYPES.map((value) => (
               <label
                 key={value}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px] text-muted hover:bg-panel"
+                className="text-muted hover:bg-panel flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px]"
               >
                 <input
                   type="checkbox"
@@ -163,15 +163,15 @@ export function MandateForm({ initial }: { initial: MandateFormValues }) {
           </div>
         </fieldset>
 
-        <fieldset className="border-t border-line pt-4">
-          <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+        <fieldset className="border-line border-t pt-4">
+          <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
             {tb("targetCountries")}
           </legend>
           <div className="grid max-h-56 gap-1 overflow-y-auto sm:grid-cols-3">
             {COUNTRIES.map((item) => (
               <label
                 key={item.code}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-[14px] text-muted hover:bg-panel"
+                className="text-muted hover:bg-panel flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-[14px]"
               >
                 <input
                   type="checkbox"
@@ -216,7 +216,7 @@ export function MandateForm({ initial }: { initial: MandateFormValues }) {
           </Select>
         </Field>
 
-        <label className="flex cursor-pointer items-center gap-2 text-[14px] text-ink sm:col-span-3">
+        <label className="text-ink flex cursor-pointer items-center gap-2 text-[14px] sm:col-span-3">
           <input
             type="checkbox"
             name="needsActiveLicense"
@@ -262,7 +262,7 @@ export function MandateForm({ initial }: { initial: MandateFormValues }) {
       {formError ? (
         <p
           role="alert"
-          className="rounded-xl border border-danger/20 bg-danger-soft px-3.5 py-2.5 text-[14px] font-medium text-danger"
+          className="border-danger/20 bg-danger-soft text-danger rounded-xl border px-3.5 py-2.5 text-[14px] font-medium"
         >
           {formError}
         </p>

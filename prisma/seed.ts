@@ -18,7 +18,15 @@
  * the same database, which is what makes the numbers in the README reproducible.
  */
 
-import { PrismaClient, type AssetBenefit, type AssetStatus, type BusinessCategory, type BusinessStatus, type Currency, type LicenseType } from "@prisma/client";
+import {
+  PrismaClient,
+  type AssetBenefit,
+  type AssetStatus,
+  type BusinessCategory,
+  type BusinessStatus,
+  type Currency,
+  type LicenseType,
+} from "@prisma/client";
 import { hash } from "bcryptjs";
 
 // The seed talks to the DIRECT endpoint, not the pooler.
@@ -284,7 +292,8 @@ const BUYERS = [
     name: "Lukas Weber",
     company: "Weber Industrie Beteiligungen",
     country: "DE",
-    thesis: "First financial-services acquisition for a family office; banking licence preferred.",
+    thesis:
+      "First financial-services acquisition for a family office; banking licence preferred.",
     categories: ["BANKING", "EMONEY"],
     countries: ["DE", "LU", "CH"],
     licences: ["BANK", "EMI"],
@@ -596,7 +605,11 @@ async function main() {
         benefits: pickSome(BENEFITS, isActiveBusiness ? 3 : 1, isActiveBusiness ? 7 : 4),
         askingPrice: BigInt(priceMajor) * 100n,
         currency: "EUR",
-        employees: isActiveBusiness ? intBetween(3, 90) : rng() < 0.4 ? intBetween(1, 4) : null,
+        employees: isActiveBusiness
+          ? intBetween(3, 90)
+          : rng() < 0.4
+            ? intBetween(1, 4)
+            : null,
         yearOfIssue: intBetween(2013, 2025),
         status,
         publishedAt: status === "DRAFT" ? null : daysAgo(intBetween(1, 180)),
@@ -613,7 +626,8 @@ async function main() {
     (a) => a.status === "PUBLISHED" && a.sellerId === sellers[2].id,
   );
   if (toSuspend) {
-    const reason = "Asking price and licence scope contradict the uploaded register extract.";
+    const reason =
+      "Asking price and licence scope contradict the uploaded register extract.";
     await db.asset.update({
       where: { id: toSuspend.id },
       data: {
@@ -642,7 +656,10 @@ async function main() {
   // inbox, and so the "contact again reopens the same thread" rule has an
   // existing thread to be tested against.
   const publishedByActiveSellers = assets.filter(
-    (a) => a.status === "PUBLISHED" && a.sellerId !== sellers[5].id && a.sellerId !== sellers[6].id,
+    (a) =>
+      a.status === "PUBLISHED" &&
+      a.sellerId !== sellers[5].id &&
+      a.sellerId !== sellers[6].id,
   );
 
   const conversations: Array<{ buyer: number; asset: number; lines: string[] }> = [
@@ -751,11 +768,13 @@ function buildDescription(
     : "The entity is clean: the licence is in good standing with no operations, no clients and no liabilities.";
 
   const sector: Record<BusinessCategory, string> = {
-    PAYMENTS: "Payment services with settlement accounts and an established processing partner.",
+    PAYMENTS:
+      "Payment services with settlement accounts and an established processing partner.",
     FINTECH: "Technology-led financial services business with its own product stack.",
     CRYPTO: "Digital asset services, registered for exchange and custody activities.",
     BANKING: "Credit institution with a full deposit-taking permission.",
-    EMONEY: "Electronic money institution authorised to issue e-money and hold client funds.",
+    EMONEY:
+      "Electronic money institution authorised to issue e-money and hold client funds.",
     FOREX: "Foreign exchange brokerage with execution and liquidity arrangements.",
     LENDING: "Consumer and SME lending with an originated loan book.",
     GAMBLING: "Licensed gaming operations with certified platform integrations.",

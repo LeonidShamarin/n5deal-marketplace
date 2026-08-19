@@ -18,10 +18,7 @@ export function Pagination({ page, pageCount }: { page: number; pageCount: numbe
   if (pageCount <= 1) return null;
 
   return (
-    <nav
-      className="mt-6 flex items-center justify-center gap-3"
-      aria-label="Pagination"
-    >
+    <nav className="mt-6 flex items-center justify-center gap-3" aria-label="Pagination">
       <Button
         type="button"
         variant="subtle"
@@ -33,7 +30,7 @@ export function Pagination({ page, pageCount }: { page: number; pageCount: numbe
         {t("previous")}
       </Button>
 
-      <span className="text-[14px] tabular text-muted" aria-live="polite">
+      <span className="tabular text-muted text-[14px]" aria-live="polite">
         {t("page", { page, total: pageCount })}
       </span>
 

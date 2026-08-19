@@ -16,9 +16,11 @@ const button = cva(
         primary: "bg-brand text-white shadow-[var(--shadow-brand)] hover:bg-brand-hover",
         outline: "border border-brand bg-white text-brand hover:bg-brand-soft",
         dark: "bg-ink text-white hover:bg-ink/90",
-        subtle: "bg-panel text-ink border border-line hover:bg-white hover:border-line-strong",
+        subtle:
+          "bg-panel text-ink border border-line hover:bg-white hover:border-line-strong",
         danger: "bg-danger text-white hover:bg-danger/90",
-        dangerOutline: "border border-danger/40 bg-white text-danger hover:bg-danger-soft",
+        dangerOutline:
+          "border border-danger/40 bg-white text-danger hover:bg-danger-soft",
         ghost: "text-muted hover:text-ink hover:bg-panel",
       },
       size: {

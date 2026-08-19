@@ -72,13 +72,15 @@ function Tab({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-[14px] font-semibold transition-colors",
+        "inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors",
         active ? "bg-ink text-white" : "text-muted hover:bg-panel hover:text-ink",
         !active && count === 0 && "opacity-45",
       )}
     >
       {label}
-      <span className={cn("tabular text-[13px]", active ? "text-white/70" : "text-faint")}>
+      <span
+        className={cn("tabular text-[13px]", active ? "text-white/70" : "text-faint")}
+      >
         ({count})
       </span>
     </button>

@@ -55,9 +55,7 @@ Rules:
 - Omit any field the sentence does not clearly imply. Guessing is worse than leaving a filter off.
 - "q" carries only leftover words that are not covered by the structured fields, such as a company name. Leave it out if there are none.`;
 
-export async function parseSearchQueryAction(
-  input: unknown,
-): Promise<NlSearchResult> {
+export async function parseSearchQueryAction(input: unknown): Promise<NlSearchResult> {
   const parsed = requestSchema.safeParse(input);
   if (!parsed.success) {
     return { proposal: {}, source: "rules-no-key", weak: true };
@@ -95,9 +93,9 @@ export async function parseSearchQueryAction(
 
 function buildPrompt(query: string): string {
   const countries = COUNTRIES.map((c) => `${c.code} (${c.name})`).join(", ");
-  const licences = LICENSE_TYPES.map(
-    (l) => `${l} (${LICENSE_DESCRIPTIONS[l]})`,
-  ).join(", ");
+  const licences = LICENSE_TYPES.map((l) => `${l} (${LICENSE_DESCRIPTIONS[l]})`).join(
+    ", ",
+  );
 
   return [
     `Search sentence: ${JSON.stringify(query)}`,
@@ -117,10 +115,7 @@ function buildPrompt(query: string): string {
  * taken from the rules when present, because a number written in the sentence is
  * a fact, not an interpretation.
  */
-function mergeProposals(
-  rules: AiFilterProposal,
-  ai: AiFilterProposal,
-): AiFilterProposal {
+function mergeProposals(rules: AiFilterProposal, ai: AiFilterProposal): AiFilterProposal {
   const union = <T extends string>(a?: T[], b?: T[]): T[] | undefined => {
     const values = [...new Set([...(a ?? []), ...(b ?? [])])];
     return values.length > 0 ? values : undefined;

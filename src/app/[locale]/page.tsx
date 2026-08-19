@@ -51,10 +51,10 @@ export default async function LandingPage({
         <Badge tone="brand" size="md">
           {t("eyebrow")}
         </Badge>
-        <h1 className="mt-4 max-w-3xl text-[34px] font-bold leading-[1.15] text-ink sm:text-[46px]">
+        <h1 className="text-ink mt-4 max-w-3xl text-[34px] leading-[1.15] font-bold sm:text-[46px]">
           {t("title")}
         </h1>
-        <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-muted">
+        <p className="text-muted mt-4 max-w-2xl text-[17px] leading-relaxed">
           {t("subtitle")}
         </p>
 
@@ -75,8 +75,8 @@ export default async function LandingPage({
         <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4">
           {stats.map((stat) => (
             <div key={stat.label}>
-              <dt className="text-[13px] font-medium text-muted">{stat.label}</dt>
-              <dd className="text-[28px] font-bold tabular text-ink">{stat.value}</dd>
+              <dt className="text-muted text-[13px] font-medium">{stat.label}</dt>
+              <dd className="tabular text-ink text-[28px] font-bold">{stat.value}</dd>
             </div>
           ))}
         </dl>
@@ -85,8 +85,8 @@ export default async function LandingPage({
       {/* One click into each role. A reviewer should never have to type a
           password to see what a seller sees. */}
       <section className="mb-16">
-        <h2 className="text-[22px] font-bold text-ink">{t("demoTitle")}</h2>
-        <p className="mt-1 max-w-2xl text-[15px] text-muted">{t("demoSubtitle")}</p>
+        <h2 className="text-ink text-[22px] font-bold">{t("demoTitle")}</h2>
+        <p className="text-muted mt-1 max-w-2xl text-[15px]">{t("demoSubtitle")}</p>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {DEMO_ACCOUNTS.map((account) => {
@@ -100,18 +100,18 @@ export default async function LandingPage({
             return (
               <Card key={account.key} className="flex flex-col p-5">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-soft text-brand">
+                  <span className="bg-brand-soft text-brand grid h-10 w-10 place-items-center rounded-xl">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate text-[16px] font-bold text-ink">
+                    <p className="text-ink truncate text-[16px] font-bold">
                       {ROLE_LABELS[account.role]}
                     </p>
-                    <p className="truncate text-[13px] text-faint">{account.email}</p>
+                    <p className="text-faint truncate text-[13px]">{account.email}</p>
                   </div>
                 </div>
 
-                <p className="mt-3 flex-1 text-[14px] leading-relaxed text-muted">
+                <p className="text-muted mt-3 flex-1 text-[14px] leading-relaxed">
                   {t(blurbKey)}
                 </p>
 
@@ -127,7 +127,7 @@ export default async function LandingPage({
           })}
         </div>
 
-        <p className="mt-4 text-[13px] text-faint">
+        <p className="text-faint mt-4 text-[13px]">
           {t("demoHint", { password: DEMO_PASSWORD })}
           {user ? ` — ${user.name}` : null}
         </p>

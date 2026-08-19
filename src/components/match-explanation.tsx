@@ -47,7 +47,7 @@ export function MatchExplanation({ match }: { match: MatchResult }) {
   return (
     <div className={cn("rounded-xl border px-4 py-3", bandClass)}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[13px] font-bold uppercase tracking-wide text-muted">
+        <p className="text-muted text-[13px] font-bold tracking-wide uppercase">
           {t("whyLabel", { score: match.score })}
         </p>
         {prose === null ? (
@@ -70,27 +70,27 @@ export function MatchExplanation({ match }: { match: MatchResult }) {
 
       <ul className="mt-2 space-y-1">
         {match.strengths.slice(0, 3).map((factor) => (
-          <li key={factor.key} className="flex items-start gap-2 text-[13px] text-body">
-            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
+          <li key={factor.key} className="text-body flex items-start gap-2 text-[13px]">
+            <Check className="text-success mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
             {factor.detail}
           </li>
         ))}
         {match.gaps.slice(0, 2).map((factor) => (
-          <li key={factor.key} className="flex items-start gap-2 text-[13px] text-muted">
-            <Minus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-faint" aria-hidden />
+          <li key={factor.key} className="text-muted flex items-start gap-2 text-[13px]">
+            <Minus className="text-faint mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
             {factor.detail}
           </li>
         ))}
       </ul>
 
       {prose ? (
-        <p className="mt-3 border-t border-line pt-3 text-[14px] leading-relaxed text-body">
+        <p className="border-line text-body mt-3 border-t pt-3 text-[14px] leading-relaxed">
           {prose}
         </p>
       ) : null}
 
       {failed ? (
-        <p className="mt-2 text-[12px] text-faint">{t("explainUnavailable")}</p>
+        <p className="text-faint mt-2 text-[12px]">{t("explainUnavailable")}</p>
       ) : null}
     </div>
   );

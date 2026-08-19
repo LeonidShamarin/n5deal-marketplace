@@ -108,15 +108,15 @@ async function SellerDashboard({ userId, name }: { userId: string; name: string 
       </div>
 
       {counts.suspended > 0 ? (
-        <Card className="mt-4 border-danger/20 bg-danger-soft p-4">
-          <p className="text-[14px] font-semibold text-danger">
+        <Card className="border-danger/20 bg-danger-soft mt-4 p-4">
+          <p className="text-danger text-[14px] font-semibold">
             {t("suspendedNotice", { count: counts.suspended })}
           </p>
         </Card>
       ) : null}
 
       <section className="mt-8">
-        <h2 className="text-[18px] font-bold text-ink">{t("myListings")}</h2>
+        <h2 className="text-ink text-[18px] font-bold">{t("myListings")}</h2>
         {assets.length === 0 ? (
           <div className="mt-3">
             <EmptyState
@@ -143,10 +143,10 @@ async function SellerDashboard({ userId, name }: { userId: string; name: string 
 
       {matches.length > 0 && flagship ? (
         <section className="mt-8">
-          <h2 className="text-[18px] font-bold text-ink">
+          <h2 className="text-ink text-[18px] font-bold">
             {t("matchingBuyers", { ref: flagship.ref })}
           </h2>
-          <p className="mt-1 text-[14px] text-muted">{t("matchingBuyersHint")}</p>
+          <p className="text-muted mt-1 text-[14px]">{t("matchingBuyersHint")}</p>
           <div className="mt-3 space-y-4">
             {matches.map(({ buyer, match }) => (
               <div key={buyer.id} className="space-y-2">
@@ -230,15 +230,15 @@ async function BuyerDashboard({ userId, name }: { userId: string; name: string }
       ) : (
         <>
           <section className="mt-8">
-            <h2 className="text-[18px] font-bold text-ink">{t("yourMandate")}</h2>
+            <h2 className="text-ink text-[18px] font-bold">{t("yourMandate")}</h2>
             <div className="mt-3">
               <BuyerCard buyer={profile} showVisibility />
             </div>
           </section>
 
           <section className="mt-8">
-            <h2 className="text-[18px] font-bold text-ink">{t("matchingAssets")}</h2>
-            <p className="mt-1 text-[14px] text-muted">{t("matchingAssetsHint")}</p>
+            <h2 className="text-ink text-[18px] font-bold">{t("matchingAssets")}</h2>
+            <p className="text-muted mt-1 text-[14px]">{t("matchingAssetsHint")}</p>
             {matches.length === 0 ? (
               <div className="mt-3">
                 <EmptyState title={t("noMatches")} description={t("noMatchesHint")} />
@@ -292,8 +292,16 @@ async function ManagerDashboard({ name }: { name: string }) {
       />
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <StatTile label={t("statSellers")} value={sellers} href="/moderation/participants" />
-        <StatTile label={t("statBuyers")} value={buyers} href="/moderation/participants" />
+        <StatTile
+          label={t("statSellers")}
+          value={sellers}
+          href="/moderation/participants"
+        />
+        <StatTile
+          label={t("statBuyers")}
+          value={buyers}
+          href="/moderation/participants"
+        />
         <StatTile label={t("statAssets")} value={assets} href="/moderation/assets" />
         <StatTile label={t("statAudit")} value={events} href="/moderation/audit" />
       </div>
@@ -301,15 +309,19 @@ async function ManagerDashboard({ name }: { name: string }) {
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <StatTile label={t("statSuspendedUsers")} value={suspended} tone="danger" />
         <StatTile label={t("statRemovedUsers")} value={removed} tone="danger" />
-        <StatTile label={t("statSuspendedAssets")} value={suspendedAssets} tone="danger" />
+        <StatTile
+          label={t("statSuspendedAssets")}
+          value={suspendedAssets}
+          tone="danger"
+        />
       </div>
 
       <Card className="mt-6 p-5">
         <div className="flex items-start gap-3">
-          <Users className="mt-0.5 h-5 w-5 text-brand" aria-hidden />
+          <Users className="text-brand mt-0.5 h-5 w-5" aria-hidden />
           <div>
-            <p className="text-[15px] font-semibold text-ink">{t("managerHowTitle")}</p>
-            <p className="mt-1 text-[14px] leading-relaxed text-muted">
+            <p className="text-ink text-[15px] font-semibold">{t("managerHowTitle")}</p>
+            <p className="text-muted mt-1 text-[14px] leading-relaxed">
               {t("managerHowBody")}
             </p>
           </div>
@@ -337,10 +349,10 @@ function StatTile({
       className={
         tone === "danger"
           ? "border-danger/20 p-4"
-          : "p-4 transition-colors hover:border-line-strong"
+          : "hover:border-line-strong p-4 transition-colors"
       }
     >
-      <p className="text-[13px] font-medium text-muted">{label}</p>
+      <p className="text-muted text-[13px] font-medium">{label}</p>
       <p
         className={`mt-0.5 text-[24px] font-bold ${
           tone === "danger" ? "text-danger" : "text-ink"

@@ -31,7 +31,7 @@ export function LocaleSwitcher() {
 
   return (
     <div
-      className="flex items-center rounded-full border border-line bg-panel p-0.5"
+      className="border-line bg-panel flex items-center rounded-full border p-0.5"
       role="group"
     >
       {routing.locales.map((code) => (
@@ -49,7 +49,7 @@ export function LocaleSwitcher() {
           className={cn(
             "rounded-full px-2.5 py-1 text-[12px] font-bold transition-colors disabled:opacity-60",
             code === locale
-              ? "bg-white text-ink shadow-[var(--shadow-card)]"
+              ? "text-ink bg-white shadow-[var(--shadow-card)]"
               : "text-muted hover:text-ink",
           )}
         >

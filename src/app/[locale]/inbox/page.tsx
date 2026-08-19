@@ -1,6 +1,11 @@
 import { MessagesSquare } from "lucide-react";
 import type { Metadata } from "next";
-import { getFormatter, getLocale, getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  getFormatter,
+  getLocale,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 
 import { Badge, Card, EmptyState, PageHeading } from "@/components/ui/primitives";
 import { Link } from "@/i18n/navigation";
@@ -55,27 +60,27 @@ export default async function InboxPage({
             return (
               <li key={thread.id}>
                 <Link href={`/inbox/${thread.id}`} className="block">
-                  <Card className="p-4 transition-colors hover:border-line-strong">
+                  <Card className="hover:border-line-strong p-4 transition-colors">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <p className="truncate text-[15px] font-bold text-ink">
+                        <p className="text-ink truncate text-[15px] font-bold">
                           {company}
                         </p>
-                        <p className="truncate text-[13px] text-muted">{other.name}</p>
+                        <p className="text-muted truncate text-[13px]">{other.name}</p>
                       </div>
                       <div className="flex shrink-0 items-center gap-2">
                         {unread ? <Badge tone="brand">{t("unread")}</Badge> : null}
                         {other.status !== "ACTIVE" ? (
                           <Badge tone="danger">{t("inactiveParty")}</Badge>
                         ) : null}
-                        <span className="text-[12px] text-faint">
+                        <span className="text-faint text-[12px]">
                           {format.relativeTime(thread.lastMessageAt)}
                         </span>
                       </div>
                     </div>
 
                     {thread.asset ? (
-                      <p className="mt-2 truncate rounded-lg bg-panel px-2.5 py-1.5 text-[13px] text-muted">
+                      <p className="bg-panel text-muted mt-2 truncate rounded-lg px-2.5 py-1.5 text-[13px]">
                         #{thread.asset.ref} · {thread.asset.title} ·{" "}
                         {CATEGORY_LABELS[thread.asset.category]} ·{" "}
                         {countryName(thread.asset.country)} ·{" "}
@@ -86,12 +91,12 @@ export default async function InboxPage({
                         )}
                       </p>
                     ) : (
-                      <p className="mt-2 text-[13px] text-faint">{t("generalThread")}</p>
+                      <p className="text-faint mt-2 text-[13px]">{t("generalThread")}</p>
                     )}
 
                     {last ? (
-                      <p className="mt-2 line-clamp-2-safe text-[14px] text-muted">
-                        <span className="font-semibold text-ink">
+                      <p className="line-clamp-2-safe text-muted mt-2 text-[14px]">
+                        <span className="text-ink font-semibold">
                           {last.senderId === me.id ? t("you") : other.name.split(" ")[0]}:
                         </span>{" "}
                         {last.body}

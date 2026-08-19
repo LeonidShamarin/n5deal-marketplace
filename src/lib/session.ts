@@ -75,15 +75,15 @@ export async function requireRole<R extends Role>(
  */
 export type ActionResult<T = void> =
   | { ok: true; data: T }
-  | { ok: false; error: ActionError; message: string; fieldErrors?: Record<string, string[]> };
+  | {
+      ok: false;
+      error: ActionError;
+      message: string;
+      fieldErrors?: Record<string, string[]>;
+    };
 
 export type ActionError =
-  | "UNAUTHENTICATED"
-  | "FORBIDDEN"
-  | "NOT_FOUND"
-  | "GONE"
-  | "VALIDATION"
-  | "CONFLICT";
+  "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "GONE" | "VALIDATION" | "CONFLICT";
 
 export function actionOk<T>(data: T): ActionResult<T> {
   return { ok: true, data };

@@ -49,7 +49,7 @@ export function SearchBox({
   return (
     <div className="relative">
       <Search
-        className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint"
+        className="text-faint pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2"
         aria-hidden
       />
       <Input
@@ -97,8 +97,8 @@ export function FacetGroup({
   const { toggleInList, isSelected } = useFilterNav();
 
   return (
-    <fieldset className="border-t border-line pt-4 first:border-t-0 first:pt-0">
-      <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+    <fieldset className="border-line border-t pt-4 first:border-t-0 first:pt-0">
+      <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
         {title}
       </legend>
       <div className={cn("grid gap-1.5", columns === 2 && "grid-cols-2")}>
@@ -122,7 +122,7 @@ export function FacetGroup({
               />
               <span className="min-w-0 flex-1 truncate">{option.label}</span>
               {count !== undefined ? (
-                <span className="shrink-0 text-[12px] tabular text-faint">{count}</span>
+                <span className="tabular text-faint shrink-0 text-[12px]">{count}</span>
               ) : null}
             </label>
           );
@@ -167,8 +167,8 @@ export function RangeFilter({
   }
 
   return (
-    <fieldset className="border-t border-line pt-4">
-      <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+    <fieldset className="border-line border-t pt-4">
+      <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
         {title}
       </legend>
       <div className="flex items-center gap-2">
@@ -194,7 +194,7 @@ export function RangeFilter({
           onKeyDown={(event) => event.key === "Enter" && commit()}
         />
       </div>
-      {hint ? <p className="mt-1.5 text-[12px] text-faint">{hint}</p> : null}
+      {hint ? <p className="text-faint mt-1.5 text-[12px]">{hint}</p> : null}
     </fieldset>
   );
 }
@@ -222,8 +222,8 @@ export function TriStateFilter({
   ];
 
   return (
-    <fieldset className="border-t border-line pt-4">
-      <legend className="mb-2 text-[13px] font-bold uppercase tracking-wide text-faint">
+    <fieldset className="border-line border-t pt-4">
+      <legend className="text-faint mb-2 text-[13px] font-bold tracking-wide uppercase">
         {title}
       </legend>
       <div className="flex flex-wrap gap-1.5">

@@ -56,7 +56,10 @@ const mandateSchema = z
     thesis: z
       .string()
       .trim()
-      .min(40, "Describe what you are looking for in at least 40 characters — this is what sellers read.")
+      .min(
+        40,
+        "Describe what you are looking for in at least 40 characters — this is what sellers read.",
+      )
       .max(2000),
     about: z.string().trim().max(2000).optional().or(z.literal("")),
     targetCategories: z.array(z.enum(BUSINESS_CATEGORIES)).max(8).default([]),

@@ -131,7 +131,7 @@ export default async function AssetsPage({
         </div>
 
         <div>
-          <p className="mb-3 text-[14px] font-medium text-muted" aria-live="polite">
+          <p className="text-muted mb-3 text-[14px] font-medium" aria-live="polite">
             {tc("results", { count: result.total })}
           </p>
 

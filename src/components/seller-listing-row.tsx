@@ -3,7 +3,12 @@
 import { Eye, Pencil } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
-import type { AssetStatus, BusinessCategory, Currency, LicenseType } from "@prisma/client";
+import type {
+  AssetStatus,
+  BusinessCategory,
+  Currency,
+  LicenseType,
+} from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { Badge, Card } from "@/components/ui/primitives";
@@ -61,11 +66,11 @@ export function SellerListingRow({ asset }: { asset: SellerListing }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[15px] font-bold text-ink">#{asset.ref}</span>
+            <span className="text-ink text-[15px] font-bold">#{asset.ref}</span>
             <Badge tone={toneFor(asset.status)}>{ta(asset.status)}</Badge>
           </div>
-          <p className="mt-0.5 truncate text-[15px] text-ink">{asset.title}</p>
-          <p className="mt-0.5 truncate text-[13px] text-muted">
+          <p className="text-ink mt-0.5 truncate text-[15px]">{asset.title}</p>
+          <p className="text-muted mt-0.5 truncate text-[13px]">
             {CATEGORY_LABELS[asset.category]} · {LICENSE_LABELS[asset.licenseType]} ·{" "}
             {countryName(asset.country)} ·{" "}
             {formatMoneyCompact(asset.askingPrice, asset.currency, locale)} ·{" "}
@@ -75,7 +80,7 @@ export function SellerListingRow({ asset }: { asset: SellerListing }) {
             </span>
           </p>
           {suspended && asset.statusReason ? (
-            <p className="mt-2 rounded-lg bg-danger-soft px-2.5 py-1.5 text-[13px] text-danger">
+            <p className="bg-danger-soft text-danger mt-2 rounded-lg px-2.5 py-1.5 text-[13px]">
               {asset.statusReason}
             </p>
           ) : null}
@@ -117,7 +122,11 @@ export function SellerListingRow({ asset }: { asset: SellerListing }) {
                   </Button>
                 </>
               ) : (
-                <Button size="sm" disabled={pending} onClick={() => setStatus("PUBLISHED")}>
+                <Button
+                  size="sm"
+                  disabled={pending}
+                  onClick={() => setStatus("PUBLISHED")}
+                >
                   {t("publish")}
                 </Button>
               )}

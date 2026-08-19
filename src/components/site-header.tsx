@@ -37,18 +37,18 @@ export async function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/90 backdrop-blur">
+    <header className="border-line sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1200px] items-center gap-4 px-4 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <span
             aria-hidden
-            className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-[15px] font-bold text-white"
+            className="bg-brand grid h-8 w-8 place-items-center rounded-lg text-[15px] font-bold text-white"
           >
             N5
           </span>
           <span className="hidden leading-tight sm:block">
-            <span className="block text-[15px] font-bold text-ink">deal</span>
-            <span className="block text-[10px] font-medium uppercase tracking-wide text-faint">
+            <span className="text-ink block text-[15px] font-bold">deal</span>
+            <span className="text-faint block text-[10px] font-medium tracking-wide uppercase">
               M&amp;A Deals Platform
             </span>
           </span>
@@ -70,7 +70,7 @@ export async function SiteHeader() {
           {user ? (
             <>
               <div className="hidden text-right leading-tight md:block">
-                <div className="max-w-[160px] truncate text-[13px] font-semibold text-ink">
+                <div className="text-ink max-w-[160px] truncate text-[13px] font-semibold">
                   {user.name}
                 </div>
                 <Badge tone="brand">{ROLE_LABELS[user.role]}</Badge>
@@ -85,7 +85,7 @@ export async function SiteHeader() {
           ) : (
             <Link
               href="/sign-in"
-              className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-semibold text-white hover:bg-ink/90"
+              className="bg-ink hover:bg-ink/90 inline-flex h-9 items-center rounded-full px-4 text-sm font-semibold text-white"
             >
               {t("signIn")}
             </Link>

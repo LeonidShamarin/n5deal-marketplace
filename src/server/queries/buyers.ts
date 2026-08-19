@@ -51,7 +51,9 @@ export type BuyerViewer = {
  * The visibility clause for a given viewer. Kept separate so the catalogue and
  * the single-profile lookup cannot drift apart on who is allowed to see what.
  */
-export function buyerVisibilityWhere(viewer: BuyerViewer | null): Prisma.BuyerProfileWhereInput {
+export function buyerVisibilityWhere(
+  viewer: BuyerViewer | null,
+): Prisma.BuyerProfileWhereInput {
   // Not signed in: nothing.
   if (!viewer) return { id: "__none__" };
 

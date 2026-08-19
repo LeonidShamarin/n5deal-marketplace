@@ -110,9 +110,8 @@ export async function getThreadFor(
 }
 
 /** The other party in a thread, from the viewer's point of view. */
-export function counterpartOf<T extends { buyerId: string; buyer: unknown; seller: unknown }>(
-  thread: T,
-  viewerId: string,
-): T["buyer"] {
+export function counterpartOf<
+  T extends { buyerId: string; buyer: unknown; seller: unknown },
+>(thread: T, viewerId: string): T["buyer"] {
   return thread.buyerId === viewerId ? thread.seller : thread.buyer;
 }

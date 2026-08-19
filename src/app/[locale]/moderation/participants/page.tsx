@@ -31,7 +31,9 @@ export default async function ParticipantsPage({
   await requireRole("MANAGER");
 
   const params = await searchParams;
-  const q = String(params.q ?? "").trim().slice(0, 120);
+  const q = String(params.q ?? "")
+    .trim()
+    .slice(0, 120);
   const role = String(params.role ?? "");
   const status = String(params.status ?? "");
 
@@ -104,7 +106,9 @@ export default async function ParticipantsPage({
         />
       </div>
 
-      <p className="mt-4 text-[14px] text-muted">{tc("results", { count: users.length })}</p>
+      <p className="text-muted mt-4 text-[14px]">
+        {tc("results", { count: users.length })}
+      </p>
 
       {users.length === 0 ? (
         <div className="mt-3">
@@ -129,7 +133,9 @@ export default async function ParticipantsPage({
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[15px] font-bold text-ink">{user.name}</span>
+                        <span className="text-ink text-[15px] font-bold">
+                          {user.name}
+                        </span>
                         <Badge tone="neutral">{ROLE_LABELS[user.role]}</Badge>
                         <Badge tone={user.status === "ACTIVE" ? "success" : "danger"}>
                           {USER_STATUS_LABELS[user.status]}
@@ -139,7 +145,7 @@ export default async function ParticipantsPage({
                         ) : null}
                       </div>
 
-                      <p className="mt-0.5 truncate text-[14px] text-muted">
+                      <p className="text-muted mt-0.5 truncate text-[14px]">
                         {company}
                         {country ? ` · ${countryName(country)}` : ""} · {user.email}
                         {user.role === "SELLER"
@@ -148,7 +154,7 @@ export default async function ParticipantsPage({
                       </p>
 
                       {user.statusReason ? (
-                        <p className="mt-2 rounded-lg bg-danger-soft px-2.5 py-1.5 text-[13px] text-danger">
+                        <p className="bg-danger-soft text-danger mt-2 rounded-lg px-2.5 py-1.5 text-[13px]">
                           {user.statusReason}
                           {user.statusChangedAt
                             ? ` — ${format.relativeTime(user.statusChangedAt)}`
@@ -159,7 +165,7 @@ export default async function ParticipantsPage({
                       {user.buyerProfile ? (
                         <Link
                           href={`/buyers/${user.buyerProfile.id}`}
-                          className="mt-2 inline-block text-[13px] font-semibold text-brand hover:underline"
+                          className="text-brand mt-2 inline-block text-[13px] font-semibold hover:underline"
                         >
                           {t("viewMandate")}
                         </Link>
@@ -167,23 +173,23 @@ export default async function ParticipantsPage({
                     </div>
 
                     {user.status === "REMOVED" ? (
-                      <p className="shrink-0 text-[13px] text-faint">
+                      <p className="text-faint shrink-0 text-[13px]">
                         {t("removalPermanent")}
                       </p>
                     ) : (
-                        <ModerationActions
-                          targetId={user.id}
-                          actions={
-                            user.status === "SUSPENDED"
-                              ? [
-                                  { kind: "unsuspendUser", label: t("unsuspend") },
-                                  { kind: "removeUser", label: t("remove"), danger: true },
-                                ]
-                              : [
-                                  { kind: "suspendUser", label: t("suspend") },
-                                  { kind: "removeUser", label: t("remove"), danger: true },
-                                ]
-                          }
+                      <ModerationActions
+                        targetId={user.id}
+                        actions={
+                          user.status === "SUSPENDED"
+                            ? [
+                                { kind: "unsuspendUser", label: t("unsuspend") },
+                                { kind: "removeUser", label: t("remove"), danger: true },
+                              ]
+                            : [
+                                { kind: "suspendUser", label: t("suspend") },
+                                { kind: "removeUser", label: t("remove"), danger: true },
+                              ]
+                        }
                       />
                     )}
                   </div>
@@ -212,7 +218,7 @@ function FilterLinks({
   options: ReadonlyArray<{ value: string; label: string }>;
 }) {
   return (
-    <div className="flex items-center gap-1 rounded-full border border-line bg-panel p-1">
+    <div className="border-line bg-panel flex items-center gap-1 rounded-full border p-1">
       {options.map((option) => {
         const active = current === option.value;
         return (
@@ -225,8 +231,8 @@ function FilterLinks({
             }
             className={
               active
-                ? "rounded-full bg-ink px-3 py-1.5 text-[13px] font-semibold text-white"
-                : "rounded-full px-3 py-1.5 text-[13px] font-semibold text-muted hover:text-ink"
+                ? "bg-ink rounded-full px-3 py-1.5 text-[13px] font-semibold text-white"
+                : "text-muted hover:text-ink rounded-full px-3 py-1.5 text-[13px] font-semibold"
             }
           >
             {option.label}

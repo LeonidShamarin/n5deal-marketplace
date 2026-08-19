@@ -204,7 +204,8 @@ export function buildQuery(
   for (const [key, value] of Object.entries(patch)) {
     next.delete(key);
 
-    if (value === null || value === undefined || value === "" || value === false) continue;
+    if (value === null || value === undefined || value === "" || value === false)
+      continue;
     if (Array.isArray(value)) {
       if (value.length > 0) next.set(key, value.join(","));
       continue;
@@ -217,7 +218,9 @@ export function buildQuery(
 
   // Stable key order keeps the same filter selection from producing two
   // different URLs, which matters for caching and for "did anything change".
-  const sorted = new URLSearchParams([...next.entries()].sort(([a], [b]) => a.localeCompare(b)));
+  const sorted = new URLSearchParams(
+    [...next.entries()].sort(([a], [b]) => a.localeCompare(b)),
+  );
   const query = sorted.toString();
   return query === "" ? "" : `?${query}`;
 }
@@ -254,7 +257,10 @@ export function hasActiveBuyerFilters(filters: BuyerFilters): boolean {
 export const aiFilterSchema = z.object({
   q: z.string().max(120).optional(),
   categories: z.array(z.enum(BUSINESS_CATEGORIES)).max(8).optional(),
-  countries: z.array(z.enum(COUNTRY_CODES as [string, ...string[]])).max(12).optional(),
+  countries: z
+    .array(z.enum(COUNTRY_CODES as [string, ...string[]]))
+    .max(12)
+    .optional(),
   licenseTypes: z.array(z.enum(LICENSE_TYPES)).max(8).optional(),
   businessStatuses: z.array(z.enum(BUSINESS_STATUSES)).max(2).optional(),
   /** Major units, as a person would say them; converted to minor units after parsing. */

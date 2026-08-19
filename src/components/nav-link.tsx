@@ -9,13 +9,7 @@ import { cn } from "@/lib/cn";
  * version, so it returns "/assets" rather than "/en/assets" and the comparison
  * does not need to strip the prefix.
  */
-export function NavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+export function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(`${href}/`);
 
@@ -24,7 +18,7 @@ export function NavLink({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "inline-flex h-9 items-center whitespace-nowrap rounded-full px-3.5 text-sm font-semibold transition-colors",
+        "inline-flex h-9 items-center rounded-full px-3.5 text-sm font-semibold whitespace-nowrap transition-colors",
         active ? "bg-ink text-white" : "text-muted hover:bg-panel hover:text-ink",
       )}
     >

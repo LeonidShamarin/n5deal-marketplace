@@ -200,7 +200,12 @@ export async function sendMessageAction(
 
     const now = new Date();
     const message = await db.message.create({
-      data: { threadId: thread.id, senderId: me.id, body: parsed.data.body, createdAt: now },
+      data: {
+        threadId: thread.id,
+        senderId: me.id,
+        body: parsed.data.body,
+        createdAt: now,
+      },
       select: { id: true },
     });
 

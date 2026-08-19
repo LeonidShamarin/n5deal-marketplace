@@ -40,7 +40,12 @@ export function AiSearchBar({
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => setValue(urlValue), [urlValue]);
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
 
   function schedulePlainSearch(next: string) {
     if (timer.current) clearTimeout(timer.current);
@@ -90,7 +95,7 @@ export function AiSearchBar({
     <div>
       <div className="relative">
         <Search
-          className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint"
+          className="text-faint pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2"
           aria-hidden
         />
         <Input
@@ -122,9 +127,9 @@ export function AiSearchBar({
             onClick={() => void runSmartSearch()}
             disabled={busy || value.trim() === ""}
             className={cn(
-              "absolute right-1.5 top-1/2 inline-flex h-9 -translate-y-1/2 items-center gap-1.5",
-              "rounded-full bg-brand px-4 text-[14px] font-semibold text-white",
-              "shadow-[var(--shadow-brand)] transition-colors hover:bg-brand-hover",
+              "absolute top-1/2 right-1.5 inline-flex h-9 -translate-y-1/2 items-center gap-1.5",
+              "bg-brand rounded-full px-4 text-[14px] font-semibold text-white",
+              "hover:bg-brand-hover shadow-[var(--shadow-brand)] transition-colors",
               "disabled:opacity-50",
             )}
           >
@@ -138,7 +143,7 @@ export function AiSearchBar({
         ) : null}
       </div>
 
-      <p className="mt-1.5 min-h-[18px] px-4 text-[12px] text-faint">
+      <p className="text-faint mt-1.5 min-h-[18px] px-4 text-[12px]">
         {note ?? (enabled ? t("hint") : null)}
       </p>
     </div>

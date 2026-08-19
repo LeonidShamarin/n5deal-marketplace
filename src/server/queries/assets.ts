@@ -123,9 +123,7 @@ export type AssetListResult = {
   pageCount: number;
 };
 
-export async function listPublicAssets(
-  filters: AssetFilters,
-): Promise<AssetListResult> {
+export async function listPublicAssets(filters: AssetFilters): Promise<AssetListResult> {
   const where = buildAssetWhere(filters);
 
   const [total, items] = await Promise.all([

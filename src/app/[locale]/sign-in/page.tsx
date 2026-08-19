@@ -24,28 +24,28 @@ export default async function SignInPage({
 
   return (
     <div className="mx-auto max-w-[440px] px-4 py-14">
-      <h1 className="text-[26px] font-bold text-ink">{t("signInTitle")}</h1>
-      <p className="mt-1.5 text-[15px] text-muted">{t("signInSubtitle")}</p>
+      <h1 className="text-ink text-[26px] font-bold">{t("signInTitle")}</h1>
+      <p className="text-muted mt-1.5 text-[15px]">{t("signInSubtitle")}</p>
 
       <Card className="mt-6 p-6">
         <SignInForm locale={locale} />
       </Card>
 
-      <Card className="mt-4 border-dashed bg-panel p-5">
-        <p className="text-[13px] font-semibold text-ink">Demo accounts</p>
+      <Card className="bg-panel mt-4 border-dashed p-5">
+        <p className="text-ink text-[13px] font-semibold">Demo accounts</p>
         <ul className="mt-2 space-y-1">
           {DEMO_ACCOUNTS.map((account) => (
             <li key={account.key} className="flex justify-between gap-3 text-[13px]">
-              <span className="truncate text-muted">{account.email}</span>
-              <span className="shrink-0 font-medium text-ink">
+              <span className="text-muted truncate">{account.email}</span>
+              <span className="text-ink shrink-0 font-medium">
                 {ROLE_LABELS[account.role]}
               </span>
             </li>
           ))}
         </ul>
-        <p className="mt-2 text-[13px] text-faint">
+        <p className="text-faint mt-2 text-[13px]">
           Password: <span className="font-mono font-semibold">{DEMO_PASSWORD}</span> —{" "}
-          <Link href="/" className="font-semibold text-brand hover:underline">
+          <Link href="/" className="text-brand font-semibold hover:underline">
             one-click sign-in is on the home page
           </Link>
           .

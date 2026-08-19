@@ -47,7 +47,7 @@ export function MessageComposer({ threadId }: { threadId: string }) {
         aria-invalid={state && !state.ok ? true : undefined}
       />
       {state && !state.ok ? (
-        <p role="alert" className="text-[13px] font-medium text-danger">
+        <p role="alert" className="text-danger text-[13px] font-medium">
           {state.fieldErrors?.body?.[0] ?? state.message}
         </p>
       ) : null}

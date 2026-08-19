@@ -69,7 +69,10 @@ export async function suspendUserAction(
       reason: formData.get("reason"),
     });
     if (!parsed.success) {
-      abort("VALIDATION", z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.");
+      abort(
+        "VALIDATION",
+        z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.",
+      );
     }
 
     const target = await db.user.findUnique({
@@ -78,7 +81,8 @@ export async function suspendUserAction(
     });
 
     if (!target) abort("NOT_FOUND", "That participant does not exist.");
-    if (target.id === manager.id) abort("FORBIDDEN", "You cannot suspend your own account.");
+    if (target.id === manager.id)
+      abort("FORBIDDEN", "You cannot suspend your own account.");
     if (target.role === "MANAGER") {
       abort("FORBIDDEN", "Managers are not moderated from this screen.");
     }
@@ -93,7 +97,11 @@ export async function suspendUserAction(
     await db.$transaction([
       db.user.update({
         where: { id: target.id },
-        data: { status: "SUSPENDED", statusReason: parsed.data.reason, statusChangedAt: now },
+        data: {
+          status: "SUSPENDED",
+          statusReason: parsed.data.reason,
+          statusChangedAt: now,
+        },
       }),
       db.moderationEvent.create({
         data: {
@@ -124,7 +132,10 @@ export async function unsuspendUserAction(
       reason: formData.get("reason"),
     });
     if (!parsed.success) {
-      abort("VALIDATION", z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.");
+      abort(
+        "VALIDATION",
+        z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.",
+      );
     }
 
     const target = await db.user.findUnique({
@@ -138,9 +149,13 @@ export async function unsuspendUserAction(
     // the platform never really removed anyone, which is not what "remove" means
     // to the person who asked for it.
     if (target.status === "REMOVED") {
-      abort("FORBIDDEN", "Removal is permanent. A removed participant cannot be reinstated.");
+      abort(
+        "FORBIDDEN",
+        "Removal is permanent. A removed participant cannot be reinstated.",
+      );
     }
-    if (target.status !== "SUSPENDED") abort("CONFLICT", "That participant is not suspended.");
+    if (target.status !== "SUSPENDED")
+      abort("CONFLICT", "That participant is not suspended.");
 
     const now = new Date();
 
@@ -180,7 +195,10 @@ export async function removeUserAction(
       reason: formData.get("reason"),
     });
     if (!parsed.success) {
-      abort("VALIDATION", z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.");
+      abort(
+        "VALIDATION",
+        z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.",
+      );
     }
 
     const target = await db.user.findUnique({
@@ -189,18 +207,24 @@ export async function removeUserAction(
     });
 
     if (!target) abort("NOT_FOUND", "That participant does not exist.");
-    if (target.id === manager.id) abort("FORBIDDEN", "You cannot remove your own account.");
+    if (target.id === manager.id)
+      abort("FORBIDDEN", "You cannot remove your own account.");
     if (target.role === "MANAGER") {
       abort("FORBIDDEN", "Managers are not moderated from this screen.");
     }
-    if (target.status === "REMOVED") abort("CONFLICT", "That participant is already removed.");
+    if (target.status === "REMOVED")
+      abort("CONFLICT", "That participant is already removed.");
 
     const now = new Date();
 
     await db.$transaction([
       db.user.update({
         where: { id: target.id },
-        data: { status: "REMOVED", statusReason: parsed.data.reason, statusChangedAt: now },
+        data: {
+          status: "REMOVED",
+          statusReason: parsed.data.reason,
+          statusChangedAt: now,
+        },
       }),
       db.moderationEvent.create({
         data: {
@@ -235,7 +259,10 @@ export async function suspendAssetAction(
       reason: formData.get("reason"),
     });
     if (!parsed.success) {
-      abort("VALIDATION", z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.");
+      abort(
+        "VALIDATION",
+        z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.",
+      );
     }
 
     const asset = await db.asset.findUnique({
@@ -244,7 +271,8 @@ export async function suspendAssetAction(
     });
 
     if (!asset) abort("NOT_FOUND", "That listing does not exist.");
-    if (asset.status === "SUSPENDED") abort("CONFLICT", "That listing is already suspended.");
+    if (asset.status === "SUSPENDED")
+      abort("CONFLICT", "That listing is already suspended.");
 
     const now = new Date();
 
@@ -290,7 +318,10 @@ export async function unsuspendAssetAction(
       reason: formData.get("reason"),
     });
     if (!parsed.success) {
-      abort("VALIDATION", z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.");
+      abort(
+        "VALIDATION",
+        z.flattenError(parsed.error).fieldErrors.reason?.[0] ?? "Invalid request.",
+      );
     }
 
     const asset = await db.asset.findUnique({

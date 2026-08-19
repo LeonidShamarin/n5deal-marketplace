@@ -283,4 +283,3 @@ export const LICENSES_BY_COUNTRY: Readonly<Record<string, readonly LicenseType[]
   CA: ["MSO", "MTL"],
   GI: ["VASP", "EMI"],
 };
-

@@ -17,13 +17,12 @@ import {
 } from "@/server/actions/moderation";
 
 type ActionKind =
-  | "suspendUser"
-  | "unsuspendUser"
-  | "removeUser"
-  | "suspendAsset"
-  | "unsuspendAsset";
+  "suspendUser" | "unsuspendUser" | "removeUser" | "suspendAsset" | "unsuspendAsset";
 
-const HANDLERS: Record<ActionKind, (formData: FormData) => Promise<ActionResult<unknown>>> = {
+const HANDLERS: Record<
+  ActionKind,
+  (formData: FormData) => Promise<ActionResult<unknown>>
+> = {
   suspendUser: suspendUserAction,
   unsuspendUser: unsuspendUserAction,
   removeUser: removeUserAction,
@@ -115,10 +114,10 @@ export function ModerationActions({
     // basis-full makes the expanded panel take a line of its own inside the
     // wrapping flex row. Left in the narrow action column it rendered as a
     // ~200px slot with the textarea scrolling three words at a time.
-    <div className="w-full basis-full rounded-xl border border-line bg-panel p-3">
+    <div className="border-line bg-panel w-full basis-full rounded-xl border p-3">
       <label
         htmlFor={`reason-${targetId}`}
-        className="block text-[13px] font-semibold text-ink"
+        className="text-ink block text-[13px] font-semibold"
       >
         {t("reasonLabel")}
       </label>
@@ -133,7 +132,7 @@ export function ModerationActions({
       />
 
       {isRemoval ? (
-        <label className="mt-2 flex cursor-pointer items-start gap-2 text-[13px] text-danger">
+        <label className="text-danger mt-2 flex cursor-pointer items-start gap-2 text-[13px]">
           <input
             type="checkbox"
             checked={confirmed}
@@ -145,7 +144,7 @@ export function ModerationActions({
       ) : null}
 
       {error ? (
-        <p role="alert" className="mt-2 text-[13px] font-medium text-danger">
+        <p role="alert" className="text-danger mt-2 text-[13px] font-medium">
           {error}
         </p>
       ) : null}
@@ -161,7 +160,13 @@ export function ModerationActions({
           {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : null}
           {t("confirm")}
         </Button>
-        <Button type="button" size="sm" variant="ghost" disabled={pending} onClick={reset}>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          disabled={pending}
+          onClick={reset}
+        >
           {t("cancel")}
         </Button>
       </div>

@@ -1,6 +1,13 @@
 "use client";
 
-import { AlertTriangle, CheckCircle2, Info, Loader2, Sparkles, XCircle } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  Loader2,
+  Sparkles,
+  XCircle,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 
@@ -25,7 +32,10 @@ import {
   countryName,
 } from "@/lib/vocabulary";
 import { createAssetAction, updateAssetAction } from "@/server/actions/assets";
-import { reviewListingAction, type ListingReviewResult } from "@/server/actions/listing-review";
+import {
+  reviewListingAction,
+  type ListingReviewResult,
+} from "@/server/actions/listing-review";
 
 export type ListingFormValues = {
   id?: string;
@@ -45,12 +55,12 @@ export type ListingFormValues = {
   status?: string;
 };
 
-const SEVERITY_STYLE: Record<
-  ReviewSeverity,
-  { icon: typeof Info; className: string }
-> = {
+const SEVERITY_STYLE: Record<ReviewSeverity, { icon: typeof Info; className: string }> = {
   error: { icon: XCircle, className: "border-danger/20 bg-danger-soft text-danger" },
-  warning: { icon: AlertTriangle, className: "border-warning/20 bg-warning-soft text-warning" },
+  warning: {
+    icon: AlertTriangle,
+    className: "border-warning/20 bg-warning-soft text-warning",
+  },
   hint: { icon: Info, className: "border-line bg-panel text-muted" },
 };
 
@@ -275,13 +285,13 @@ export function ListingForm({
       </Card>
 
       <Card className="p-5">
-        <p className="text-[14px] font-semibold text-ink">{t("benefits")}</p>
-        <p className="mt-1 text-[13px] text-muted">{t("benefitsHint")}</p>
+        <p className="text-ink text-[14px] font-semibold">{t("benefits")}</p>
+        <p className="text-muted mt-1 text-[13px]">{t("benefitsHint")}</p>
         <div className="mt-3 grid gap-1.5 sm:grid-cols-2">
           {ASSET_BENEFITS.map((benefit) => (
             <label
               key={benefit}
-              className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px] text-muted hover:bg-panel"
+              className="text-muted hover:bg-panel flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px]"
             >
               <input
                 type="checkbox"
@@ -300,8 +310,8 @@ export function ListingForm({
       <Card className="p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-[14px] font-semibold text-ink">{t("reviewTitle")}</p>
-            <p className="mt-1 text-[13px] text-muted">{t("reviewHint")}</p>
+            <p className="text-ink text-[14px] font-semibold">{t("reviewTitle")}</p>
+            <p className="text-muted mt-1 text-[13px]">{t("reviewHint")}</p>
           </div>
           <Button type="button" variant="subtle" onClick={runReview} disabled={reviewing}>
             {reviewing ? (
@@ -316,7 +326,7 @@ export function ListingForm({
         {review ? (
           <div className="mt-4 space-y-2">
             {review.issues.length === 0 ? (
-              <p className="flex items-center gap-2 rounded-xl border border-success/20 bg-success-soft px-3.5 py-2.5 text-[14px] font-medium text-success">
+              <p className="border-success/20 bg-success-soft text-success flex items-center gap-2 rounded-xl border px-3.5 py-2.5 text-[14px] font-medium">
                 <CheckCircle2 className="h-4 w-4" aria-hidden />
                 {t("reviewClean")}
               </p>
@@ -325,7 +335,7 @@ export function ListingForm({
                 <ReviewRow key={`${issue.severity}-${index}`} issue={issue} />
               ))
             )}
-            <p className="pt-1 text-[12px] text-faint">
+            <p className="text-faint pt-1 text-[12px]">
               {review.aiUsed ? t("reviewByAi") : t("reviewByRules")}
             </p>
           </div>
@@ -335,7 +345,7 @@ export function ListingForm({
       {formError ? (
         <p
           role="alert"
-          className="rounded-xl border border-danger/20 bg-danger-soft px-3.5 py-2.5 text-[14px] font-medium text-danger"
+          className="border-danger/20 bg-danger-soft text-danger rounded-xl border px-3.5 py-2.5 text-[14px] font-medium"
         >
           {formError}
         </p>

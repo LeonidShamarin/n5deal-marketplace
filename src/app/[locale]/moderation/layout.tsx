@@ -22,10 +22,10 @@ export default async function ModerationLayout({
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8">
-      <h1 className="text-[26px] font-bold text-ink">{t("title")}</h1>
-      <p className="mt-1 text-[15px] text-muted">{t("subtitle")}</p>
+      <h1 className="text-ink text-[26px] font-bold">{t("title")}</h1>
+      <p className="text-muted mt-1 text-[15px]">{t("subtitle")}</p>
 
-      <nav className="mt-5 border-b border-line pb-3">
+      <nav className="border-line mt-5 border-b pb-3">
         <ul className="flex flex-wrap gap-1">
           <li>
             <NavLink href="/moderation/participants">{t("tabParticipants")}</NavLink>

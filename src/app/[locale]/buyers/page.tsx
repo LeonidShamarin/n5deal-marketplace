@@ -28,7 +28,11 @@ import {
   LICENSE_TYPES,
   countryName,
 } from "@/lib/vocabulary";
-import { buyerViewerFor, countBuyersByCategory, listBuyers } from "@/server/queries/buyers";
+import {
+  buyerViewerFor,
+  countBuyersByCategory,
+  listBuyers,
+} from "@/server/queries/buyers";
 
 export const metadata: Metadata = { title: "Buyer mandates" };
 
@@ -61,9 +65,9 @@ export default async function BuyersPage({
   if (!viewer) {
     return (
       <div className="mx-auto max-w-[720px] px-4 py-20 text-center">
-        <Users className="mx-auto h-10 w-10 text-faint" aria-hidden />
-        <h1 className="mt-4 text-[26px] font-bold text-ink">{tb("signedOutTitle")}</h1>
-        <p className="mt-2 text-[15px] text-muted">{tb("signedOutBody")}</p>
+        <Users className="text-faint mx-auto h-10 w-10" aria-hidden />
+        <h1 className="text-ink mt-4 text-[26px] font-bold">{tb("signedOutTitle")}</h1>
+        <p className="text-muted mt-2 text-[15px]">{tb("signedOutBody")}</p>
         <div className="mt-6 flex justify-center gap-3">
           <Link href="/sign-in">
             <Button>{tb("signIn")}</Button>
@@ -150,7 +154,7 @@ export default async function BuyersPage({
         </div>
 
         <div>
-          <p className="mb-3 text-[14px] font-medium text-muted" aria-live="polite">
+          <p className="text-muted mb-3 text-[14px] font-medium" aria-live="polite">
             {tc("results", { count: result.total })}
           </p>
 

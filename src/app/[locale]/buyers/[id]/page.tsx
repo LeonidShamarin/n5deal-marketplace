@@ -53,7 +53,7 @@ export default async function BuyerDetailPage({
     <div className="mx-auto max-w-[1000px] px-4 py-8">
       <Link
         href="/buyers"
-        className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-muted hover:text-ink"
+        className="text-muted hover:text-ink inline-flex items-center gap-1.5 text-[14px] font-semibold"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
         {t("backToBuyers")}
@@ -65,7 +65,7 @@ export default async function BuyerDetailPage({
             <CountryTile code={buyer.country} className="hidden h-20 w-28 sm:grid" />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-[24px] font-bold leading-tight text-ink">
+                <h1 className="text-ink text-[24px] leading-tight font-bold">
                   {buyer.company}
                 </h1>
                 {isOwner || user?.role === "MANAGER" ? (
@@ -74,17 +74,17 @@ export default async function BuyerDetailPage({
                   </Badge>
                 ) : null}
               </div>
-              <p className="mt-1 text-[15px] text-muted">
+              <p className="text-muted mt-1 text-[15px]">
                 {buyer.user.name} · {countryName(buyer.country)}
               </p>
             </div>
           </div>
 
           <div className="mt-5">
-            <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+            <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
               {t("mandate")}
             </p>
-            <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-body">
+            <p className="text-body mt-2 text-[15px] leading-relaxed whitespace-pre-line">
               {buyer.thesis}
             </p>
           </div>
@@ -117,12 +117,12 @@ export default async function BuyerDetailPage({
 
           <div className="mt-5 space-y-4">
             <div>
-              <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+              <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                 {t("targetCategories")}
               </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {buyer.targetCategories.length === 0 ? (
-                  <span className="text-[14px] text-faint">{tc("any")}</span>
+                  <span className="text-faint text-[14px]">{tc("any")}</span>
                 ) : (
                   buyer.targetCategories.map((category) => (
                     <Chip key={category}>{CATEGORY_LABELS[category]}</Chip>
@@ -132,12 +132,12 @@ export default async function BuyerDetailPage({
             </div>
 
             <div>
-              <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+              <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                 {t("targetCountries")}
               </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {buyer.targetCountries.length === 0 ? (
-                  <span className="text-[14px] text-faint">{tc("any")}</span>
+                  <span className="text-faint text-[14px]">{tc("any")}</span>
                 ) : (
                   buyer.targetCountries.map((code) => (
                     <Chip key={code}>{countryName(code)}</Chip>
@@ -148,7 +148,7 @@ export default async function BuyerDetailPage({
 
             {buyer.targetLicenseTypes.length > 0 ? (
               <div>
-                <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+                <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                   {t("targetLicenses")}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -164,10 +164,10 @@ export default async function BuyerDetailPage({
 
           {buyer.about ? (
             <div className="mt-5">
-              <p className="text-[13px] font-bold uppercase tracking-wide text-faint">
+              <p className="text-faint text-[13px] font-bold tracking-wide uppercase">
                 {td("description")}
               </p>
-              <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-body">
+              <p className="text-body mt-2 text-[15px] leading-relaxed whitespace-pre-line">
                 {buyer.about}
               </p>
             </div>
@@ -177,8 +177,8 @@ export default async function BuyerDetailPage({
         <aside className="space-y-4">
           {isOwner ? (
             <Card className="p-5">
-              <p className="text-[14px] font-semibold text-ink">{t("yourMandate")}</p>
-              <p className="mt-1 text-[13px] text-muted">{t("yourMandateHint")}</p>
+              <p className="text-ink text-[14px] font-semibold">{t("yourMandate")}</p>
+              <p className="text-muted mt-1 text-[13px]">{t("yourMandateHint")}</p>
               <Link href="/dashboard/profile" className="mt-3 block">
                 <Button full variant="outline">
                   {t("editMandate")}

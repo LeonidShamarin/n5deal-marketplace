@@ -53,7 +53,7 @@ export function AssetCard({
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="truncate text-[18px] font-bold leading-tight text-ink">
+            <h3 className="text-ink truncate text-[18px] leading-tight font-bold">
               {t("idLabel", { ref: asset.ref })}
             </h3>
 
@@ -64,7 +64,7 @@ export function AssetCard({
                 </Badge>
               ) : null}
               {verified ? (
-                <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-success">
+                <span className="text-success inline-flex items-center gap-1 text-[13px] font-semibold">
                   <BadgeCheck className="h-4 w-4" aria-hidden />
                   {t("validated")}
                 </span>
@@ -72,7 +72,7 @@ export function AssetCard({
             </div>
           </div>
 
-          <p className="mt-0.5 truncate text-[14px] text-muted">{asset.title}</p>
+          <p className="text-muted mt-0.5 truncate text-[14px]">{asset.title}</p>
 
           {/* Row one: what the asset is, and what it costs. */}
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -121,24 +121,24 @@ export function AssetCard({
 
           {asset.benefits.length > 0 ? (
             <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              <span className="text-[13px] text-muted">{t("included")}</span>
+              <span className="text-muted text-[13px]">{t("included")}</span>
               {visible.map((benefit) => (
                 <Chip key={benefit}>{BENEFIT_LABELS[benefit]}</Chip>
               ))}
               {overflow > 0 ? (
-                <span className="text-[13px] font-bold text-brand">
+                <span className="text-brand text-[13px] font-bold">
                   {t("moreBenefits", { count: overflow })}
                 </span>
               ) : null}
             </div>
           ) : null}
 
-          <p className="mt-3 line-clamp-2-safe text-[14px] leading-relaxed text-muted">
+          <p className="line-clamp-2-safe text-muted mt-3 text-[14px] leading-relaxed">
             {asset.description}
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-4 text-[13px] text-muted">
+            <div className="text-muted flex items-center gap-4 text-[13px]">
               <span className="inline-flex items-center gap-1.5">
                 <Eye className="h-4 w-4" aria-hidden />
                 {t("views", { count: asset.viewCount })}
@@ -181,16 +181,16 @@ export function AssetCardSkeleton() {
   return (
     <Card className="p-5">
       <div className="flex gap-4">
-        <div className="hidden h-16 w-24 shrink-0 rounded-xl bg-panel sm:block" />
+        <div className="bg-panel hidden h-16 w-24 shrink-0 rounded-xl sm:block" />
         <div className="flex-1 space-y-3">
-          <div className="h-5 w-40 rounded bg-panel" />
+          <div className="bg-panel h-5 w-40 rounded" />
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
             {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className="h-12 rounded-[var(--radius-cell)] bg-panel" />
+              <div key={index} className="bg-panel h-12 rounded-[var(--radius-cell)]" />
             ))}
           </div>
-          <div className="h-4 w-3/4 rounded bg-panel" />
-          <div className="h-4 w-1/2 rounded bg-panel" />
+          <div className="bg-panel h-4 w-3/4 rounded" />
+          <div className="bg-panel h-4 w-1/2 rounded" />
         </div>
       </div>
     </Card>

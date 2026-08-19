@@ -93,5 +93,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
  * A real bcrypt hash of a value nobody can supply. Used only to keep the timing
  * of "no such user" indistinguishable from "wrong password".
  */
-const DUMMY_HASH =
-  "$2b$10$CwTycUXWue0Thq9StjUM0uJ8eQ8i1V7q2vT2QK1zRZ0mZ6XxYnq7C";
+const DUMMY_HASH = "$2b$10$CwTycUXWue0Thq9StjUM0uJ8eQ8i1V7q2vT2QK1zRZ0mZ6XxYnq7C";

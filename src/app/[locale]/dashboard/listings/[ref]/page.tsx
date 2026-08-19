@@ -38,12 +38,12 @@ export default async function EditListingPage({
       <PageHeading title={t("editTitle")} description={t("editSubtitle")} />
 
       {suspended ? (
-        <Card className="mt-6 border-danger/20 bg-danger-soft p-4">
-          <p className="text-[14px] font-semibold text-danger">{t("suspendedTitle")}</p>
-          <p className="mt-1 text-[14px] text-muted">
+        <Card className="border-danger/20 bg-danger-soft mt-6 p-4">
+          <p className="text-danger text-[14px] font-semibold">{t("suspendedTitle")}</p>
+          <p className="text-muted mt-1 text-[14px]">
             {asset.statusReason ?? t("suspendedNoReason")}
           </p>
-          <p className="mt-2 text-[13px] text-muted">{t("suspendedHint")}</p>
+          <p className="text-muted mt-2 text-[13px]">{t("suspendedHint")}</p>
         </Card>
       ) : (
         <div className="mt-6">

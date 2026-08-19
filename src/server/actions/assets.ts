@@ -30,7 +30,12 @@ import {
  */
 
 /** Statuses a seller may move a listing into by themselves. */
-const SELLER_SETTABLE: readonly AssetStatus[] = ["DRAFT", "PUBLISHED", "ARCHIVED", "SOLD"];
+const SELLER_SETTABLE: readonly AssetStatus[] = [
+  "DRAFT",
+  "PUBLISHED",
+  "ARCHIVED",
+  "SOLD",
+];
 
 async function loadOwnAsset(assetId: string, sellerId: string) {
   const asset = await db.asset.findUnique({
@@ -45,7 +50,10 @@ async function loadOwnAsset(assetId: string, sellerId: string) {
   // A listing a manager has suspended is frozen for its owner: letting the
   // seller edit their way out of moderation would make suspension meaningless.
   if (asset.status === "SUSPENDED") {
-    abort("FORBIDDEN", "This listing is suspended by a platform manager and cannot be changed.");
+    abort(
+      "FORBIDDEN",
+      "This listing is suspended by a platform manager and cannot be changed.",
+    );
   }
 
   return asset;
@@ -184,7 +192,9 @@ export async function setAssetStatusAction(
       data: {
         status: next,
         publishedAt:
-          next === "PUBLISHED" ? (existing.publishedAt ?? new Date()) : existing.publishedAt,
+          next === "PUBLISHED"
+            ? (existing.publishedAt ?? new Date())
+            : existing.publishedAt,
       },
     });
 

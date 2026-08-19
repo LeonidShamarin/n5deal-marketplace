@@ -71,7 +71,7 @@ export function SignInForm({ locale }: { locale: string }) {
       {formError ? (
         <p
           role="alert"
-          className="rounded-xl border border-danger/20 bg-danger-soft px-3.5 py-2.5 text-[14px] font-medium text-danger"
+          className="border-danger/20 bg-danger-soft text-danger rounded-xl border px-3.5 py-2.5 text-[14px] font-medium"
         >
           {formError}
         </p>
