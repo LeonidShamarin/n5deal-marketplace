@@ -254,3 +254,33 @@ export const REGULATORS_BY_COUNTRY: Readonly<Record<string, readonly string[]>> 
   CA: ["FINTRAC"],
   GI: ["GFSC"],
 };
+
+/**
+ * Which licence types each jurisdiction actually issues.
+ *
+ * Used by the listing review to catch a genuine contradiction — an EMI licence
+ * in a country with no EMI regime — rather than a stylistic quibble. A country
+ * absent from this map is simply not checked, which is the honest behaviour for
+ * a list that does not claim to be exhaustive.
+ */
+export const LICENSES_BY_COUNTRY: Readonly<Record<string, readonly LicenseType[]>> = {
+  LT: ["EMI", "PI", "VASP"],
+  GB: ["EMI", "API_LICENSE", "SEMI", "MSO"],
+  MT: ["EMI", "PI", "VASP"],
+  CY: ["PI", "EMI"],
+  EE: ["VASP", "PI"],
+  IE: ["EMI", "PI"],
+  LU: ["EMI", "BANK"],
+  NL: ["EMI", "PI"],
+  DE: ["BANK", "EMI"],
+  PL: ["SEMI", "PI"],
+  CZ: ["SEMI", "PI"],
+  CH: ["VASP", "BANK"],
+  AE: ["VASP", "MSO"],
+  SG: ["MSO", "VASP"],
+  HK: ["MSO", "VASP"],
+  US: ["MTL", "MSO"],
+  CA: ["MSO", "MTL"],
+  GI: ["VASP", "EMI"],
+};
+
