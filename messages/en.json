@@ -141,5 +141,49 @@
     "noStructure": "Nothing specific recognised — searching the text instead.",
     "byRulesNoKey": "Filters set by the built-in parser — no AI key is configured.",
     "byRulesUnavailable": "The model did not answer, so the built-in parser set the filters."
+  },
+  "detail": {
+    "backToCatalogue": "Back to listings",
+    "description": "Description",
+    "seller": "Seller",
+    "yourListing": "This is your listing",
+    "yourListingHint": "Edit it, change its status or take it off the market from your dashboard.",
+    "editListing": "Edit listing",
+    "moderation": "Moderation",
+    "moderationHint": "You are signed in as a platform manager.",
+    "openModeration": "Open moderation",
+    "notLive": "This listing is not public. Current status: {status}.",
+    "goneTitle": "This listing is no longer available",
+    "goneBody": "The seller behind it was removed from the platform, so the listing was withdrawn with them. It is kept here for reference rather than deleted."
+  },
+  "contact": {
+    "contactSeller": "Contact seller",
+    "contactBuyer": "Contact buyer",
+    "hint": "Messages stay on the platform. The other side sees your name and company.",
+    "yourMessage": "Your message",
+    "placeholder": "Introduce yourself and say what you would like to know.",
+    "send": "Send message",
+    "sending": "Sending…",
+    "cancel": "Cancel",
+    "signIn": "Sign in",
+    "signInToContact": "Sign in as a buyer to start a conversation.",
+    "managersDoNotTrade": "Platform managers moderate the marketplace; they do not take part in deals.",
+    "wrongSide": "Conversations run between a buyer and a seller.",
+    "started": "Conversation started.",
+    "reopened": "Added to your existing conversation about this listing."
+  },
+  "inbox": {
+    "title": "Inbox",
+    "subtitle": "Every conversation you are part of, newest first.",
+    "unread": "New",
+    "inactiveParty": "Inactive account",
+    "generalThread": "General enquiry",
+    "you": "You",
+    "backToInbox": "Back to inbox",
+    "aboutListing": "About this listing",
+    "replyPlaceholder": "Write a reply…",
+    "send": "Send",
+    "sending": "Sending…",
+    "cannotReply": "The other participant is suspended or removed, so this conversation is read-only. The history is kept."
   }
 }
