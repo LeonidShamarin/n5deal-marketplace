@@ -6,6 +6,13 @@ assets, buyers publish an acquisition mandate, a platform manager moderates both
 **Live:** https://n5deal-marketplace-beige.vercel.app
 **Stack:** Next.js 15 (App Router) · TypeScript strict · Postgres + Prisma · Auth.js v5 · Tailwind 4 · next-intl · Gemini
 
+![N5Deal marketplace demo](docs/n5deal-marketplace.gif)
+
+One click into the buyer role, a mandate matched at 100% with the reasons that
+produced the score, and a sentence — _"anything in Ireland or Malta under 4
+million"_ — turned into real facets in the URL. Recorded against the deployed
+build.
+
 ---
 
 ## Run it
