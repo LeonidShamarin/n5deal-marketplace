@@ -90,7 +90,7 @@
     "targetCountries": "Цільові юрисдикції",
     "targetLicenses": "Цільові ліцензії",
     "ticketSize": "Розмір чека",
-    "needsActiveLicense": "Потрібен діючий бізнес",
+    "needsActiveLicense": "Діючий бізнес",
     "visibility": "Видимість профілю",
     "contactBuyer": "Звʼязатися з покупцем",
     "noMandate": "Мандат ще не заповнено",
@@ -102,7 +102,9 @@
     "backToBuyers": "Назад до мандатів",
     "yourMandate": "Це ваш мандат",
     "yourMandateHint": "Продавці бачать саме те, що на цій сторінці — з поправкою на налаштування видимості.",
-    "editMandate": "Редагувати мандат"
+    "editMandate": "Редагувати мандат",
+    "operatingRequired": "Потрібен",
+    "operatingNotRequired": "Не потрібен"
   },
   "empty": {
     "noAssets": "Жоден актив не підходить під ці фільтри",

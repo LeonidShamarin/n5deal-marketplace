@@ -90,7 +90,7 @@
     "targetCountries": "Target jurisdictions",
     "targetLicenses": "Target licences",
     "ticketSize": "Ticket size",
-    "needsActiveLicense": "Operating business required",
+    "needsActiveLicense": "Operating business",
     "visibility": "Profile visibility",
     "contactBuyer": "Contact buyer",
     "noMandate": "No mandate yet",
@@ -102,7 +102,9 @@
     "backToBuyers": "Back to buyer mandates",
     "yourMandate": "This is your mandate",
     "yourMandateHint": "Sellers see exactly what is on this page, subject to your visibility setting.",
-    "editMandate": "Edit my mandate"
+    "editMandate": "Edit my mandate",
+    "operatingRequired": "Required",
+    "operatingNotRequired": "Not required"
   },
   "empty": {
     "noAssets": "No listings match these filters",

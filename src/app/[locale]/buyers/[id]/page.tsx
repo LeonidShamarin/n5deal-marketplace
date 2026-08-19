@@ -102,7 +102,11 @@ export default async function BuyerDetailPage({
             />
             <AttributeCell
               label={t("needsActiveLicense")}
-              value={buyer.needsActiveLicense ? tc("yes") : tc("no")}
+              value={
+                buyer.needsActiveLicense
+                  ? t("operatingRequired")
+                  : t("operatingNotRequired")
+              }
               tone={buyer.needsActiveLicense ? "success" : "muted"}
             />
             <AttributeCell
