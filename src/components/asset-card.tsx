@@ -2,7 +2,7 @@ import { BadgeCheck, Eye } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { CountryLabel, CountryTile } from "@/components/ui/country";
+import { CountryTile } from "@/components/ui/country";
 import { AttributeCell, Badge, Card, Chip } from "@/components/ui/primitives";
 import { Link } from "@/i18n/navigation";
 import { formatMoneyCompact } from "@/lib/money";
@@ -13,6 +13,7 @@ import {
   BUSINESS_STATUS_LABELS,
   CATEGORY_LABELS,
   LICENSE_LABELS,
+  countryName,
 } from "@/lib/vocabulary";
 
 /** How many benefit chips fit before the row starts wrapping badly. */
@@ -78,7 +79,8 @@ export function AssetCard({
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
             <AttributeCell
               label={t("country")}
-              value={<CountryLabel code={asset.country} />}
+              value={asset.country}
+              sub={countryName(asset.country)}
             />
             <AttributeCell
               label={t("licenseType")}

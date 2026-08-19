@@ -90,7 +90,7 @@ export function FacetGroup({
 }: {
   title: string;
   paramKey: string;
-  options: ReadonlyArray<{ value: string; label: string }>;
+  options: ReadonlyArray<{ value: string; label: string; sub?: string }>;
   counts?: Record<string, number>;
   columns?: 1 | 2;
 }) {
@@ -110,17 +110,24 @@ export function FacetGroup({
             <label
               key={option.value}
               className={cn(
-                "flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-[14px] transition-colors",
+                "flex min-w-0 cursor-pointer items-start gap-2 rounded-lg px-2 py-1.5 text-[14px] transition-colors",
                 checked ? "bg-brand-soft text-ink" : "text-muted hover:bg-panel",
               )}
             >
               <input
                 type="checkbox"
-                className="h-4 w-4 shrink-0 accent-[var(--color-brand)]"
+                className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-brand)]"
                 checked={checked}
                 onChange={() => toggleInList(paramKey, option.value)}
               />
-              <span className="min-w-0 flex-1 truncate">{option.label}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate">{option.label}</span>
+                {option.sub ? (
+                  <span className="text-faint block truncate text-[12px] leading-tight">
+                    {option.sub}
+                  </span>
+                ) : null}
+              </span>
               {count !== undefined ? (
                 <span className="tabular text-faint shrink-0 text-[12px]">{count}</span>
               ) : null}

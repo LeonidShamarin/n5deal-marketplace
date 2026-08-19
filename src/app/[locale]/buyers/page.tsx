@@ -126,7 +126,8 @@ export default async function BuyersPage({
                 paramKey="license"
                 options={LICENSE_TYPES.map((value) => ({
                   value,
-                  label: `${LICENSE_LABELS[value]} — ${LICENSE_DESCRIPTIONS[value]}`,
+                  label: LICENSE_LABELS[value],
+                  sub: LICENSE_DESCRIPTIONS[value],
                 }))}
               />
               <RangeFilter

@@ -147,7 +147,8 @@ export default async function AssetDetailPage({
               <AttributeCell label={ta("country")} value={countryName(asset.country)} />
               <AttributeCell
                 label={ta("licenseType")}
-                value={`${LICENSE_LABELS[asset.licenseType]} — ${LICENSE_DESCRIPTIONS[asset.licenseType]}`}
+                value={LICENSE_LABELS[asset.licenseType]}
+                sub={LICENSE_DESCRIPTIONS[asset.licenseType]}
               />
               <AttributeCell
                 label={ta("category")}

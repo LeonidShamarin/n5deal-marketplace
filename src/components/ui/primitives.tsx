@@ -33,12 +33,20 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 export function AttributeCell({
   label,
   value,
+  sub,
   emphasis = false,
   tone = "default",
   className,
 }: {
   label: ReactNode;
   value: ReactNode;
+  /**
+   * A quieter second line, for facts that are an identifier plus its expansion:
+   * "CH" over "Switzerland", "VASP" over "Virtual Asset Service Provider".
+   * Written as one string these truncated to "CH · Switzerla…" in a 130px cell,
+   * which loses the half a reader actually needs.
+   */
+  sub?: ReactNode;
   /** Used for the asking price, which is the one cell that carries a tint. */
   emphasis?: boolean;
   tone?: "default" | "success" | "danger" | "muted";
@@ -70,6 +78,9 @@ export function AttributeCell({
       >
         {value}
       </div>
+      {sub ? (
+        <div className="text-faint truncate text-[12px] leading-tight">{sub}</div>
+      ) : null}
     </div>
   );
 }

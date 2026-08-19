@@ -26,13 +26,3 @@ export function CountryTile({ code, className }: { code: string; className?: str
     </div>
   );
 }
-
-/** Inline form for attribute cells and tables: "LT · Lithuania". */
-export function CountryLabel({ code }: { code: string }) {
-  return (
-    <span className="truncate">
-      <span className="font-semibold">{code.toUpperCase()}</span>
-      <span className="text-muted"> · {countryName(code)}</span>
-    </span>
-  );
-}
