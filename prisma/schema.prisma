@@ -1,0 +1,327 @@
+// N5Deal marketplace — data model.
+//
+// Two ideas drive this schema:
+//
+// 1. Buyer and seller are symmetric. An Asset describes what is on offer; a
+//    BuyerProfile describes what is wanted. Both are written in the SAME
+//    attribute vocabulary (BusinessCategory, LicenseType, country, ticket size),
+//    which is what lets one filtering engine, one search box and one matching
+//    function serve both catalogues.
+//
+// 2. Nothing is ever physically deleted. Every participant and every asset has a
+//    lifecycle status, so a suspend / remove by a manager is reversible and
+//    auditable, and the assets of a suspended seller keep their own status
+//    untouched.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // pooled — app runtime
+  directUrl = env("DIRECT_URL") // direct — migrations (the pooler cannot run DDL)
+}
+
+// ---------------------------------------------------------------------------
+// Shared attribute vocabulary — used by BOTH sides of the marketplace
+// ---------------------------------------------------------------------------
+
+enum BusinessCategory {
+  PAYMENTS
+  FINTECH
+  CRYPTO
+  BANKING
+  EMONEY
+  FOREX
+  LENDING
+  GAMBLING
+}
+
+enum LicenseType {
+  MSO // Money Services Operator
+  SEMI // Small Electronic Money Institution
+  EMI // Electronic Money Institution
+  PI // Payment Institution
+  API_LICENSE // Authorised Payment Institution
+  BANK
+  VASP // Virtual Asset Service Provider
+  MTL // Money Transmitter License
+}
+
+enum BusinessStatus {
+  ACTIVE // operating business
+  LICENSE_ONLY // clean licence, no operations
+}
+
+enum AssetBenefit {
+  IBAN
+  SWIFT
+  SEPA
+  ACQUIRING
+  CARD_ISSUING
+  STAFF
+  SOFTWARE
+  CLIENT_BASE
+  BANK_ACCOUNTS
+  OFFICE
+}
+
+enum Currency {
+  EUR
+  USD
+  GBP
+}
+
+// ---------------------------------------------------------------------------
+// Lifecycle
+// ---------------------------------------------------------------------------
+
+enum Role {
+  BUYER
+  SELLER
+  MANAGER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED // reversible: cannot sign in, listings hidden, messaging blocked
+  REMOVED // terminal: soft-deleted, pages return 410
+}
+
+enum AssetStatus {
+  DRAFT // seller is still writing it
+  PUBLISHED // visible in the public catalogue
+  SUSPENDED // hidden by a manager
+  SOLD // deal closed, kept for history
+  ARCHIVED // withdrawn by the seller
+}
+
+enum BuyerVisibility {
+  PUBLIC // any signed-in seller may see the profile
+  VERIFIED_ONLY // only verified sellers
+  HIDDEN // nobody; the buyer can still browse and initiate contact
+}
+
+// ---------------------------------------------------------------------------
+// Participants
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  role         Role
+  status       UserStatus @default(ACTIVE)
+
+  // Why the account is in its current status, and since when. Written by a
+  // manager only; never blank for a non-ACTIVE user.
+  statusReason    String?
+  statusChangedAt DateTime?
+
+  locale String @default("en")
+
+  sellerProfile SellerProfile?
+  buyerProfile  BuyerProfile?
+
+  assets        Asset[]   @relation("AssetSeller")
+  buyerThreads  Thread[]  @relation("ThreadBuyer")
+  sellerThreads Thread[]  @relation("ThreadSeller")
+  messages      Message[]
+
+  moderationActionsTaken    ModerationEvent[] @relation("ModerationActor")
+  moderationActionsReceived ModerationEvent[] @relation("ModerationTargetUser")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role, status])
+}
+
+model SellerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  company String
+  about   String?
+  website String?
+  country String  @db.Char(2) // ISO 3166-1 alpha-2
+
+  // Platform-issued trust badge, mirrors the "verified" mark on n5deal.com.
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BuyerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  company String
+  country String  @db.Char(2)
+  about   String?
+
+  // --- The acquisition mandate: the buyer-side mirror of an Asset ---
+  thesis             String // free text: what they look for and why
+  targetCategories   BusinessCategory[]
+  targetCountries    String[] // ISO 3166-1 alpha-2
+  targetLicenseTypes LicenseType[]
+  ticketMin          Int? // minor units (cents), inclusive
+  ticketMax          Int? // minor units (cents), inclusive
+  currency           Currency           @default(EUR)
+  needsActiveLicense Boolean            @default(false)
+
+  visibility BuyerVisibility @default(PUBLIC)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visibility])
+}
+
+// ---------------------------------------------------------------------------
+// Assets
+// ---------------------------------------------------------------------------
+
+model Asset {
+  id String @id @default(cuid())
+
+  // Human-facing reference shown on the card as "#1042", like the reference site.
+  ref Int @unique @default(autoincrement())
+
+  sellerId String
+  seller   User   @relation("AssetSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+
+  category       BusinessCategory
+  licenseType    LicenseType
+  country        String           @db.Char(2)
+  regulator      String? // e.g. FCA, CySEC, C&ED
+  businessStatus BusinessStatus
+  benefits       AssetBenefit[]
+
+  askingPrice Int // minor units — never a float
+  currency    Currency @default(EUR)
+
+  employees   Int?
+  yearOfIssue Int?
+
+  status AssetStatus @default(DRAFT)
+
+  // A suspend by a manager must be undoable, so remember what to go back to.
+  // Nothing else writes this field.
+  previousStatus  AssetStatus?
+  statusReason    String?
+  statusChangedAt DateTime?
+
+  publishedAt DateTime?
+  viewCount   Int       @default(0)
+
+  threads          Thread[]
+  moderationEvents ModerationEvent[] @relation("ModerationTargetAsset")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, category])
+  @@index([status, country])
+  @@index([sellerId, status])
+  @@index([askingPrice])
+}
+
+// ---------------------------------------------------------------------------
+// Messaging
+// ---------------------------------------------------------------------------
+
+model Thread {
+  id String @id @default(cuid())
+
+  // Deduplication key: "<assetId|general>:<buyerId>:<sellerId>".
+  // A plain @@unique([assetId, buyerId, sellerId]) would not do the job: in
+  // Postgres NULLs compare as distinct, so two "general" threads between the
+  // same pair would both be allowed. One non-null key sidesteps that without
+  // depending on NULLS NOT DISTINCT (PG 15+) in a hand-edited migration.
+  key String @unique
+
+  assetId String?
+  asset   Asset?  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  buyerId String
+  buyer   User   @relation("ThreadBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+
+  sellerId String
+  seller   User   @relation("ThreadSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  lastMessageAt DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([buyerId, lastMessageAt])
+  @@index([sellerId, lastMessageAt])
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  threadId String
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  senderId String
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  body   String
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([threadId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Moderation audit trail
+// ---------------------------------------------------------------------------
+
+enum ModerationTargetType {
+  USER
+  ASSET
+}
+
+enum ModerationActionType {
+  SUSPEND
+  UNSUSPEND
+  REMOVE
+}
+
+model ModerationEvent {
+  id String @id @default(cuid())
+
+  actorId String
+  actor   User   @relation("ModerationActor", fields: [actorId], references: [id], onDelete: Cascade)
+
+  targetType ModerationTargetType
+  action     ModerationActionType
+
+  targetUserId String?
+  targetUser   User?   @relation("ModerationTargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+  targetAssetId String?
+  targetAsset   Asset?  @relation("ModerationTargetAsset", fields: [targetAssetId], references: [id], onDelete: Cascade)
+
+  // Mandatory: a moderation action without a stated reason is not auditable.
+  reason String
+
+  // The status of the target before this action, so UNSUSPEND can restore it.
+  previousStatus String?
+
+  createdAt DateTime @default(now())
+
+  @@index([targetType, createdAt])
+  @@index([actorId, createdAt])
+}
