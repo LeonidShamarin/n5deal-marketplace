@@ -1,6 +1,7 @@
 import type { AssetInput } from "./asset-schema";
 import {
   BENEFIT_LABELS,
+  LICENSE_ARTICLE,
   LICENSE_LABELS,
   LICENSES_BY_COUNTRY,
   countryName,
@@ -43,7 +44,7 @@ export function reviewListing(input: AssetInput): ReviewIssue[] {
     issues.push({
       severity: "error",
       field: "licenseType",
-      message: `${countryName(input.country)} does not issue a ${LICENSE_LABELS[input.licenseType]} licence. Buyers checking the register will stop here — confirm the jurisdiction or the licence type.`,
+      message: `${countryName(input.country)} does not issue ${LICENSE_ARTICLE[input.licenseType]} ${LICENSE_LABELS[input.licenseType]} licence. Buyers checking the register will stop here — confirm the jurisdiction or the licence type.`,
     });
   }
 
@@ -86,7 +87,7 @@ export function reviewListing(input: AssetInput): ReviewIssue[] {
     issues.push({
       severity: "warning",
       field: "askingPrice",
-      message: `A ${LICENSE_LABELS[input.licenseType]} licence below ${floor.toLocaleString("en")} ${input.currency} is far under market. Check the figure — a typo here costs you serious buyers.`,
+      message: `${LICENSE_ARTICLE[input.licenseType] === "an" ? "An" : "A"} ${LICENSE_LABELS[input.licenseType]} licence below ${floor.toLocaleString("en")} ${input.currency} is far under market. Check the figure — a typo here costs you serious buyers.`,
     });
   }
 

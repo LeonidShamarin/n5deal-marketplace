@@ -5,7 +5,12 @@ import type {
   LicenseType,
 } from "@prisma/client";
 
-import { countryName, CATEGORY_LABELS, LICENSE_LABELS } from "./vocabulary";
+import {
+  CATEGORY_LABELS,
+  LICENSE_ARTICLE,
+  LICENSE_LABELS,
+  countryName,
+} from "./vocabulary";
 
 /**
  * How well a buyer mandate fits an asset.
@@ -131,7 +136,7 @@ export function scoreMatch({ asset, mandate }: MatchInput): MatchResult {
     detail: licenceOpen
       ? "The mandate does not restrict the licence type."
       : licenceHit
-        ? `A ${LICENSE_LABELS[asset.licenseType]} licence is what the mandate asks for.`
+        ? `${LICENSE_ARTICLE[asset.licenseType] === "an" ? "An" : "A"} ${LICENSE_LABELS[asset.licenseType]} licence is what the mandate asks for.`
         : `The mandate asks for ${mandate.targetLicenseTypes.map((l) => LICENSE_LABELS[l]).join(", ")}, not ${LICENSE_LABELS[asset.licenseType]}.`,
   });
 

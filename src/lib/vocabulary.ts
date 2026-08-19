@@ -71,6 +71,25 @@ export const LICENSE_LABELS: Record<LicenseType, string> = {
   MTL: "MTL",
 };
 
+/**
+ * The indefinite article each licence label takes.
+ *
+ * Stored rather than derived: the article follows how the acronym is *said*, not
+ * how it is spelled. "EMI" is read "ee-em-eye" and takes "an" despite starting
+ * with a consonant letter, while "SEMI" is read as a word and takes "a". Guessing
+ * from the first character produced "a EMI licence" in the listing review.
+ */
+export const LICENSE_ARTICLE: Record<LicenseType, "a" | "an"> = {
+  MSO: "an",
+  SEMI: "a",
+  EMI: "an",
+  PI: "a",
+  API_LICENSE: "an",
+  BANK: "a",
+  VASP: "a",
+  MTL: "an",
+};
+
 /** Spelled out for tooltips and the listing form, where the acronym is not enough. */
 export const LICENSE_DESCRIPTIONS: Record<LicenseType, string> = {
   MSO: "Money Services Operator",
