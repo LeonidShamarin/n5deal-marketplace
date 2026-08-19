@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Asset" ALTER COLUMN "askingPrice" SET DATA TYPE BIGINT;
+
+-- AlterTable
+ALTER TABLE "BuyerProfile" ALTER COLUMN "ticketMin" SET DATA TYPE BIGINT,
+ALTER COLUMN "ticketMax" SET DATA TYPE BIGINT;

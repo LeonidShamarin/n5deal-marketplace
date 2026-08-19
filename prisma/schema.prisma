@@ -170,8 +170,8 @@ model BuyerProfile {
   targetCategories   BusinessCategory[]
   targetCountries    String[] // ISO 3166-1 alpha-2
   targetLicenseTypes LicenseType[]
-  ticketMin          Int? // minor units (cents), inclusive
-  ticketMax          Int? // minor units (cents), inclusive
+  ticketMin          BigInt? // minor units (cents), inclusive
+  ticketMax          BigInt? // minor units (cents), inclusive
   currency           Currency           @default(EUR)
   needsActiveLicense Boolean            @default(false)
 
@@ -206,7 +206,10 @@ model Asset {
   businessStatus BusinessStatus
   benefits       AssetBenefit[]
 
-  askingPrice Int // minor units — never a float
+  // BigInt, not Int: minor units of a EUR 45M banking licence overflow INT4 at
+  // EUR 21.47M. Storing major units instead would have kept Int, at the cost of
+  // the exactness that made minor units the choice in the first place.
+  askingPrice BigInt // minor units — never a float
   currency    Currency @default(EUR)
 
   employees   Int?
