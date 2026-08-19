@@ -46,7 +46,11 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={inter.variable}>
+    // suppressHydrationWarning covers exactly one thing: attributes that browser
+    // extensions inject into <html> before React hydrates (a grammar checker adds
+    // `data-qb-installed` here, and the console reports a mismatch that is not
+    // ours). It does not suppress content mismatches anywhere else in the tree.
+    <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className="min-h-dvh bg-white">
         <NextIntlClientProvider>
           <div className="flex min-h-dvh flex-col">
