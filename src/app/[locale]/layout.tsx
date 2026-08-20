@@ -16,13 +16,42 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL = "https://n5deal-marketplace-beige.vercel.app";
+const DESCRIPTION =
+  "Marketplace prototype for regulated businesses and licences: sellers list assets, buyers publish acquisition mandates.";
+
 export const metadata: Metadata = {
+  // metadataBase makes the relative URLs below absolute in the rendered tags.
+  // Crawlers fetch og:image from their own servers, where a relative path has
+  // no host to resolve against and the preview ends up with no image.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "N5Deal — M&A Deals Platform",
     template: "%s · N5Deal",
   },
-  description:
-    "Marketplace prototype for regulated businesses and licences: sellers list assets, buyers publish acquisition mandates.",
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "N5Deal",
+    url: "/",
+    title: "N5Deal — M&A Deals Platform",
+    description: DESCRIPTION,
+    images: [
+      {
+        url: "/og-card.png",
+        width: 1200,
+        height: 630,
+        alt: "N5Deal — M&A Deals Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "N5Deal — M&A Deals Platform",
+    description: DESCRIPTION,
+    images: ["/og-card.png"],
+  },
 };
 
 export function generateStaticParams() {
