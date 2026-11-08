@@ -41,17 +41,30 @@ import { z } from "zod";
 const MODEL = "gemini-3.1-flash-lite";
 const TIMEOUT_MS = 8_000;
 
-export function isAiEnabled(): boolean {
-  return (process.env.GEMINI_API_KEY ?? "").trim() !== "";
+// Ключі Gemini у порядку ланцюжка фолбеку: основний, далі з ключі2.txt в останню
+// чергу. Якщо на одному мертвий ключ або вичерпана квота (API повертає помилку) —
+// пробуємо наступний. Таймаут чи невалідний JSON інший ключ не виправить, тож на
+// них не перемикаємося: латентність лишається обмеженою.
+const GEMINI_KEY_VARS = ["GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"] as const;
+
+function geminiKeys(): string[] {
+  const keys: string[] = [];
+  for (const v of GEMINI_KEY_VARS) {
+    const k = (process.env[v] ?? "").trim();
+    if (k !== "" && !keys.includes(k)) keys.push(k);
+  }
+  return keys;
 }
 
-let client: GoogleGenAI | null = null;
+export function isAiEnabled(): boolean {
+  return geminiKeys().length > 0;
+}
 
-function getClient(): GoogleGenAI | null {
-  const apiKey = (process.env.GEMINI_API_KEY ?? "").trim();
-  if (apiKey === "") return null;
-  client ??= new GoogleGenAI({ apiKey });
-  return client;
+let clients: GoogleGenAI[] | null = null;
+
+function getClients(): GoogleGenAI[] {
+  clients ??= geminiKeys().map((apiKey) => new GoogleGenAI({ apiKey }));
+  return clients;
 }
 
 export type AiOutcome<T> =
@@ -71,9 +84,27 @@ export async function generateStructured<S extends z.ZodType>({
   systemInstruction: string;
   prompt: string;
 }): Promise<AiOutcome<z.infer<S>>> {
-  const ai = getClient();
-  if (!ai) return { ok: false, reason: "disabled" };
+  const ais = getClients();
+  if (ais.length === 0) return { ok: false, reason: "disabled" };
 
+  // Пробуємо ключі по черзі. Успіх одразу повертаємо; на "error" (мертвий ключ /
+  // квота) переходимо до наступного; "timeout"/"invalid" наступний ключ не
+  // виправить, тож повертаємо як є, не роздуваючи латентність.
+  let outcome: AiOutcome<z.infer<S>> = { ok: false, reason: "error" };
+  for (const ai of ais) {
+    outcome = await attemptOne(ai, { schema, systemInstruction, prompt });
+    if (outcome.ok || outcome.reason !== "error") return outcome;
+  }
+  return outcome;
+}
+
+/**
+ * Один виклик моделі одним ключем. Не кидає: будь-яка проблема стає `AiOutcome`.
+ */
+async function attemptOne<S extends z.ZodType>(
+  ai: GoogleGenAI,
+  { schema, systemInstruction, prompt }: { schema: S; systemInstruction: string; prompt: string },
+): Promise<AiOutcome<z.infer<S>>> {
   // AbortSignal.timeout rather than a manual setTimeout race: the request is
   // actually cancelled, instead of being left running while we stop waiting.
   const signal = AbortSignal.timeout(TIMEOUT_MS);
